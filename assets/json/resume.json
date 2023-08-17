@@ -3,10 +3,10 @@
     "name": "Anirudh Kaushik",
     "label": "Undergraduate Researcher",
     "image": "",
-    "email": "albert@einstein.de",
+    "email": "anirudh.ka@research.iiit.ac.in",
     "phone": "(912) 123-4567",
     "url": "https://anirudhkaushik2003.github.io",
-    "summary": "I am a horse rider, Certified Advanced open water scuba diver with 25 logged dives in 6 different countries and a researcher in Computer Science",
+    "summary": "I am a Horse Rider, Certified Advanced Open Water Scuba-Diver with 25 logged dives in 6 different countries. I can play the guitar and the piano.",
     "location": {
       "address": "N22 Malviya Nagar",
       "postalCode": "110017",
@@ -24,54 +24,66 @@
   },
   "work": [
     {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
+      "name": "CVIT, IIIT Hyderabad",
+      "position": "Undergraduate Researcher in Computer Vision for Medical Diagnosis",
       "url": "https://example.com",
       "startDate": "1933-01-01",
       "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
+      "summary": "Research on topics related to the application of Computer Vision for Solving problems in the field of medicine. My interest include disease identification and diagnosis, as well as modelling and simulating the progress of diseases.",
       "highlights": [
-        "Relativity"
+        "Machine Vision"
       ]
     }
   ],
   "volunteer": [],
   "education": [
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Software Development",
-      "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "",
+      "institution": "IIIT Hyderabad, India",
+      "url": "https://www.iiit.ac.in/",
+      "area": "Computer Science",
+      "studyType": "MS by Research",
+      "startDate": "01-09-2020",
+      "endDate": "01-05-2025",
+      "score": "9.61/10",
       "courses": [
-        "Theory of Relativity"
+        "Computer Vision", "Medical Image Analysis"
+      ]
+    },
+    {
+      "institution": "IIIT Hyderabad, India",
+      "url": "https://www.iiit.ac.in/",
+      "area": "Computer Science",
+      "studyType": "B.Tech.",
+      "startDate": "01-09-2020",
+      "endDate": "01-05-2025",
+      "score": "9.61/10",
+      "courses": [
+        "Data Structures and Algorithms", "Design and Analysis of Software Systems", "Algorithm Analysis and Design"
       ]
     }
   ],
   "awards": [
     {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
+      "title": "Dean's List for Academic Excellence",
+      "date": "2020, 2021, 2022",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Awards for Academic performance over four semesters"
     }
   ],
-  "certificates": [],
-  "publications": [],
+  "certificates": ["Open Water Diving Certification", "Advanced Open Water Diving Certification"],
+  "publications": ["Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"],
   "skills": [],
   "languages": [
     {
-      "language": "German",
+      "language": "Hindi",
       "fluency": "Native speaker"
     },
     {
       "language": "English",
-      "fluency": "Fluent"
+      "fluency": "Native speaker"
     }
   ],
-  "interests": [],
+  "interests": ["Computer Vision", "Medicine", "Quantum Computing"],
   "references": [],
   "projects": []
 }
