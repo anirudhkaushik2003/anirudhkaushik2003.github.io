@@ -22,7 +22,9 @@ Play as little red riding hood, collect flowers for your grandma (there isn't on
     Begin the game with a new and unique world each time. 
 </div>
 
-Comic Strip explaining the conceptualizion of the game.
+## Comic Strip
+A Comic Strip explaining the conceptualizion of the game.
+
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/red_part1.jpg" title="Comic 1" class="img-fluid rounded z-depth-1" %}
