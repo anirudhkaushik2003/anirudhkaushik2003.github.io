@@ -71,7 +71,7 @@
     }
   ],
   "certificates": [{"title": "Open Water Diving Certification"}, {"title": "Advanced Open Water Diving Certification"}],
-  "publications": ["Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"],
+  "publications": [{"title": "Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"}],
   "skills": [],
   "languages": [
     {
@@ -83,7 +83,7 @@
       "fluency": "Native speaker"
     }
   ],
-  "interests": ["Computer Vision", "Medicine", "Quantum Computing"],
+  "interests": [{ "title": "Computer Vision"}, {"title":"Medicine"}, {"title":"Quantum Computing"}],
   "references": [],
   "projects": []
 }
