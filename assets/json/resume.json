@@ -6,7 +6,7 @@
     "email": "anirudh.ka@research.iiit.ac.in",
     "phone": "(912) 123-4567",
     "url": "https://anirudhkaushik2003.github.io",
-    "summary": "I am a Horse Rider, Certified Advanced Open Water Scuba-Diver with 25 logged dives in 6 different countries. I can play the guitar and the piano.",
+    "summary": "I am a Horse Rider and a certified Advanced Open Water Scuba-Diver with 25 logged dives in 6 different countries. I enjoy playing the guitar and the piano.",
     "location": {
       "address": "N22 Malviya Nagar",
       "postalCode": "110017",
@@ -26,9 +26,9 @@
     {
       "name": "CVIT, IIIT Hyderabad",
       "position": "Undergraduate Researcher in Computer Vision for Medical Diagnosis",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
+      "url": "https://cvit.iiit.ac.in/mip/",
+      "startDate": "20-04-2020",
+      "endDate": "01-05-2025",
       "summary": "Research on topics related to the application of Computer Vision for Solving problems in the field of medicine. My interest include disease identification and diagnosis, as well as modelling and simulating the progress of diseases.",
       "highlights": [
         "Machine Vision"
