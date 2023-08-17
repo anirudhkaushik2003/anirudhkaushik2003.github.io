@@ -65,12 +65,12 @@
   "awards": [
     {
       "title": "Dean's List for Academic Excellence",
-      "date": "2020, 2021, 2022",
+      "date": "2022",
       "awarder": "IIIT Hyderabad",
       "summary": "Awards for Academic performance over four semesters"
     }
   ],
-  "certificates": ["Open Water Diving Certification", "Advanced Open Water Diving Certification"],
+  "certificates": [{"title": "Open Water Diving Certification"}, {"title": "Advanced Open Water Diving Certification"}],
   "publications": ["Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"],
   "skills": [],
   "languages": [
