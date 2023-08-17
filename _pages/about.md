@@ -19,7 +19,7 @@ selected_papers: true # includes a list of papers marked as "selected={false}"
 social: false  # includes social icons at the bottom of the page
 ---
 ### About Me
-Undergraduate Researcher at CVIT, IIIT Hyderabad. Working on Medical Image Analysis and Computer Aided Diagnosis with Prof. Jayanthi Sivaswamy. <br>
+Undergraduate Researcher at CVIT, IIIT Hyderabad. Working on Medical Image Analysis and Computer Aided Diagnosis with Prof. Jayanthi Sivaswamy.
 Founder and Co-ordinator of IIIT Society of Applied Quantum Computing.
   
 
