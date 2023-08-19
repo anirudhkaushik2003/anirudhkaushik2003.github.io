@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Published Research Author</a>. 
+subtitle: <a href='#'>Undergraduate Researcher, CVIT, IIIT Hyderabad</a>. 
 
 profile:
   align: right
