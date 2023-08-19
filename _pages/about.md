@@ -9,7 +9,7 @@ profile:
   image: pp.png
   image_circular: true # crops the image to make it circular
   address: >
-    <p>New Delhi, Delhi, India</p>
+    <p>New Delhi, India</p>
     <p></p>
     <p></p>
 
