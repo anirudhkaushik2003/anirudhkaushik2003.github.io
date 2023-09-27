@@ -1,7 +1,8 @@
 ---
 layout: page
-permalink: https://isaqc-official.github.io
+permalink: /isaqc/
 title: isaqc
+redirect: https://isaqc-official.github.io
 description: Resources for Activities conducted by ISAQC
 nav: true
 nav_order: 5
