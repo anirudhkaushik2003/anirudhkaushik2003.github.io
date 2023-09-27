@@ -5,7 +5,11 @@
       <nav id="navbar" class="navbar navbar-light navbar-expand-sm {% if site.navbar_fixed %}fixed-top{% else %}sticky-top{% endif %}">
         <div class="container">
           {% if page.permalink != '/' -%}
+          {% if page.permalink == "/isaqc/" -%}
+          <a class="navbar-brand title font-weight-lighter" href="https://isaqc-official.github.io">
+          {%- else -%}
           <a class="navbar-brand title font-weight-lighter" href="{{ site.baseurl }}/">
+          {%- endif -%}
             {%- if site.title == "blank" -%}
               {%- if site.first_name -%}
                 <span class="font-weight-bold">{{- site.first_name -}}&nbsp;</span>
