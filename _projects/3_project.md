@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Bayesian Modelling for Continual Learning
-description: My implementation of the MICCAI Paper "Continual Learning with Bayesian Model based on a Fixed Pre-trained Feature Extractor" tested on ISIC 2019 dataset.
+description: Continual learning via bayesian modelling
 img: assets/img/Bayesian.jpg
 redirect: https://github.com/anirudhkaushik2003/Bayesian-Model-for-prediction
 importance: 3
