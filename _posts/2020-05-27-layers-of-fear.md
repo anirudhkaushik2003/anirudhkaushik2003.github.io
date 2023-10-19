@@ -33,7 +33,7 @@ However, there wasn't much to sketch in this one.
 There were several paintings of the MC's wife, in various stages of burns and disfigurement. 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/layers-of-fear-progression.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.html path="assets/img/layers-of-fear-progression.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 
