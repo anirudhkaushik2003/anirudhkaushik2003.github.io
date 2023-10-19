@@ -146,13 +146,13 @@
   ],
   "interests": [
     {
-      "title": "Computer Vision"
+      "name": "Computer Vision"
     },
     {
-      "title": "Medicine"
+      "name": "Medicine"
     },
     {
-      "title": "Quantum Computing"
+      "name": "Quantum Computing"
     }
   ],
   "references": [],
