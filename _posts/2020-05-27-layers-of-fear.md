@@ -22,7 +22,7 @@ Layers of Fear was full of interesting painting such as the one below
 
 <div class="row mt-3">
     <div class="mx-auto d-block">
-        {% include figure.html path="assets/img/satan.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.html path="assets/img/satan.jpg" class="img-fluid rounded z-depth-1" style="width:200% height:200%" zoomable=true %}
     </div>
 </div>
 <div class="caption">
