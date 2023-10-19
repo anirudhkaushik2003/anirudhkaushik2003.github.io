@@ -263,8 +263,8 @@ jekyll-archives:
     tag: '/blog/tag/:name/'
     category: '/blog/category/:name/'
 
-display_tags: ['Sketching', 'Routines', 'Microscopy', 'Manga', 'Game-dev'] # these tags will be displayed on the front page of your blog
-display_categories: ['art', 'Fitness', 'Travel'] # these categories will be displayed on the front page of your blog
+display_tags: ['Sketching', 'Routines', 'Microscopy', 'Manga', 'Game-dev', 'Piano', 'Guitar'] # these tags will be displayed on the front page of your blog
+display_categories: ['Art', 'Fitness', 'Travel', 'Music'] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar

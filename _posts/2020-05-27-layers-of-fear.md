@@ -4,7 +4,7 @@ title:  Layers of fear
 date:   2020-05-27 19:41:00 +0530
 description: Sketching an oil painting
 tags: Sketching
-categories: art
+categories: Art
 giscus_comments: true
 thumbnail: assets/img/layers-of-fear-subject.jpg
 ---

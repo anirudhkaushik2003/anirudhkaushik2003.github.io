@@ -4,7 +4,7 @@ title:  86
 date:   2023-10-17 17:00:00 +0530
 description: Vladilena Milizé, from 86
 tags: Sketching
-categories: art
+categories: Art
 giscus_comments: true
 thumbnail: assets/img/vladilena.jpg
 ---
