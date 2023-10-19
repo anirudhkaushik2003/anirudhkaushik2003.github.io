@@ -24,6 +24,17 @@
   },
   "work": [
     {
+      "name": "Microsoft",
+      "position": "Software Engineering Intern",
+      "url": "https://www.microsoft.com/en-in/",
+      "startDate": "01-05-2024",
+      "endDate": "01-06-2024",
+      "summary": "Incoming Software Engineering Intern at Microsoft for Summer 2024",
+      "highlights": [
+        "Software Development"
+      ]
+    },
+    {
       "name": "CVIT, IIIT Hyderabad",
       "position": "Undergraduate Researcher in Computer Vision for Medical Diagnosis",
       "url": "https://cvit.iiit.ac.in/mip/",
@@ -31,7 +42,9 @@
       "endDate": "01-05-2025",
       "summary": "Research on topics related to the application of Computer Vision for Solving problems in the field of medicine. My interest include disease identification and diagnosis, as well as modelling and simulating the progress of diseases.",
       "highlights": [
-        "Machine Vision"
+        "Machine Vision",
+        "Medical Imaging",
+        "Deep Learning"
       ]
     }
   ],
@@ -64,10 +77,40 @@
   ],
   "awards": [
     {
-      "title": "Dean's List for Academic Excellence",
-      "date": "2022",
+      "title": "Dean's Merit List-I",
+      "date": "01-01-2022",
       "awarder": "IIIT Hyderabad",
-      "summary": "Awards for Academic performance over four semesters"
+      "summary": "Award for Academic Excellence"
+    },
+    {
+      "title": "Dean's Merit List-I",
+      "date": "01-09-2022",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Award for Academic Excellence"
+    },
+    {
+      "title": "Dean's Merit List-I",
+      "date": "01-01-2021",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Award for Academic Excellence"
+    },
+    {
+      "title": "Dean's Merit List-I",
+      "date": "01-09-2021",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Award for Academic Excellence"
+    },
+    {
+      "title": "Dean's Merit List-I",
+      "date": "01-01-2020",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Award for Academic Excellence"
+    },
+    {
+      "title": "Dean's Merit List-I",
+      "date": "01-09-2021",
+      "awarder": "IIIT Hyderabad",
+      "summary": "Award for Academic Excellence"
     }
   ],
   "certificates": [{"title": "Open Water Diving Certification"}, {"title": "Advanced Open Water Diving Certification"}],
