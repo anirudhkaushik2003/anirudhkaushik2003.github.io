@@ -131,7 +131,7 @@
   "publications": [
     {
       "name": "Evidence Driven Differential Diagnosis of Malignant Melanoma",
-      "icon": "assets/img/publication_preview/model.png",
+      "icon": "assets/img/publication_preview/Model.png",
       "publisher": "MICCAI, ISIC 2023",
       "releaseDate": "2023-06-21",
       "summary": "We present a modular and multi-level framework for the differential diagnosis of malignant melanoma. Our framework integrates contextual information and evidence at the lesion, patient, and population levels, enabling decision-making at each level"
