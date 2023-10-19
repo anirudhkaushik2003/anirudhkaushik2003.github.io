@@ -44,7 +44,7 @@ Out of these, the second had the most potential for a sketch in terms of shading
         {% include figure.html path="assets/img/layers-of-fear-subject.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/layers-of-fear.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.html path="assets/img/layers-of-fear.jpeg" class="img-fluid rounded z-depth-1" style="width:100% height:75%" zoomable=true %}
     </div>
 </div>
 <div class="caption">
