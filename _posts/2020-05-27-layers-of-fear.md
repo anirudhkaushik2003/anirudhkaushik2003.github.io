@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  Layers of fear, Sketching an oil painting
+title:  Layers of fear
 date:   2020-05-27 19:41:00 +0530
-description: march & april, looking forward to summer
+description: Sketching an oil painting
 tags: Sketching
 categories: art
 thumbnail: assets/img/layers-of-fear-subject.jpg
