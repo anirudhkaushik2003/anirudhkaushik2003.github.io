@@ -27,8 +27,8 @@
       "name": "Microsoft",
       "position": "Software Engineering Intern",
       "url": "https://www.microsoft.com/en-in/",
-      "startDate": "01-05-2024",
-      "endDate": "01-06-2024",
+      "startDate": "2024-01-05",
+      "endDate": "2024-01-06",
       "summary": "Incoming Software Engineering Intern at Microsoft for Summer 2024",
       "highlights": [
         "Software Development"
@@ -55,8 +55,8 @@
       "url": "https://www.iiit.ac.in/",
       "area": "Computer Science",
       "studyType": "MS by Research",
-      "startDate": "01-09-2020",
-      "endDate": "01-05-2025",
+      "startDate": "2020-01-09",
+      "endDate": "2025-01-05",
       "score": "9.61/10",
       "courses": [
         "Computer Vision", "Medical Image Analysis"
@@ -67,8 +67,8 @@
       "url": "https://www.iiit.ac.in/",
       "area": "Computer Science",
       "studyType": "B.Tech.",
-      "startDate": "01-09-2020",
-      "endDate": "01-05-2025",
+      "startDate": "2020-01-09",
+      "endDate": "2025-01-05",
       "score": "9.61/10",
       "courses": [
         "Data Structures and Algorithms", "Design and Analysis of Software Systems", "Algorithm Analysis and Design"
@@ -78,37 +78,37 @@
   "awards": [
     {
       "title": "Dean's Merit List-I",
-      "date": "01-01-2022",
+      "date": "2022-01-01",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     },
     {
       "title": "Dean's Merit List-I",
-      "date": "01-09-2022",
+      "date": "2022-01-09",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     },
     {
       "title": "Dean's Merit List-I",
-      "date": "01-01-2021",
+      "date": "2021-01-01",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     },
     {
       "title": "Dean's Merit List-I",
-      "date": "01-09-2021",
+      "date": "2021-01-09",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     },
     {
       "title": "Dean's Merit List-I",
-      "date": "01-01-2020",
+      "date": "2020-01-01",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     },
     {
       "title": "Dean's Merit List-I",
-      "date": "01-09-2021",
+      "date": "2020-01-09",
       "awarder": "IIIT Hyderabad",
       "summary": "Award for Academic Excellence"
     }
