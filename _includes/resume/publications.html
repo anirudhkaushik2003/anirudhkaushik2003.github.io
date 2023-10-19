@@ -4,8 +4,8 @@
     <li class="list-group-item">
       <div class="row">
         <div class="col-xs-2 cl-sm-2 col-md-2">
-              {% include figure.html path="{{content.icon}}" class="img-fluid rounded z-depth-1" style="width:200%; height:200%;" zoomable=true %}
-      </div>
+              {% include figure.html path={{ content.icon }} class="img-fluid rounded z-depth-1" style="width:200%; height:200%;" zoomable=true %}
+        </div>
         <div class="col-xs-2 cl-sm-2 col-md-2 text-center" style="width: 75px;">
             {% if content.releaseDate %}
             {% assign date = content.releaseDate | split: "-" | join: "." %}
