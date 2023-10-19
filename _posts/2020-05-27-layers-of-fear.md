@@ -21,7 +21,7 @@ This was the third of a series of 3 "proper" sketches that I attempted. Proper i
 Layers of Fear was full of interesting painting such as the one below
 
 <div class="row mt-3">
-    <div class="col-sm mt-3 mt-md-0">
+    <div class="mx-auto d-block">
         {% include figure.html path="assets/img/satan.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
@@ -50,5 +50,3 @@ Out of these, the second had the most potential for a sketch in terms of shading
 <div class="caption">
     Subject and final sketch
 </div>
-
-layers-of-fear-subject.jpg
