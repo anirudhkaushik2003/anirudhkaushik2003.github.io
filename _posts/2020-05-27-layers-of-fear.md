@@ -5,6 +5,7 @@ date:   2020-05-27 19:41:00 +0530
 description: Sketching an oil painting
 tags: Sketching
 categories: art
+giscus_comments: true
 thumbnail: assets/img/layers-of-fear-subject.jpg
 ---
 This was the third of a series of 3 "proper" sketches that I attempted. Proper in terms of the amount of time I was willing to spend in making them.
