@@ -59,7 +59,8 @@
       "endDate": "2025-01-05",
       "score": "9.61/10",
       "courses": [
-        "Computer Vision", "Medical Image Analysis"
+        "Computer Vision",
+        "Medical Image Analysis"
       ]
     },
     {
@@ -71,7 +72,9 @@
       "endDate": "2025-01-05",
       "score": "9.61/10",
       "courses": [
-        "Data Structures and Algorithms", "Design and Analysis of Software Systems", "Algorithm Analysis and Design"
+        "Data Structures and Algorithms",
+        "Design and Analysis of Software Systems",
+        "Algorithm Analysis and Design"
       ]
     }
   ],
@@ -113,8 +116,23 @@
       "summary": "Award for Academic Excellence"
     }
   ],
-  "certificates": [{"title": "Open Water Diving Certification"}, {"title": "Advanced Open Water Diving Certification"}],
-  "publications": [{"title": "Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"}],
+  "certificates": [
+    {
+      "name": "Open Water Diving Certification",
+      "issuer": "SSI",
+      "date": "2014-01-01"
+    },
+    {
+      "name": "Advanced Open Water Diving Certification",
+      "issuer": "SSI",
+      "date": "2015-01-01"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Evidence Driven Differential Diagnosis of Malignant Melanoma, MICCAI ISIC-W 2023"
+    }
+  ],
   "skills": [],
   "languages": [
     {
@@ -126,7 +144,17 @@
       "fluency": "Native speaker"
     }
   ],
-  "interests": [{ "title": "Computer Vision"}, {"title":"Medicine"}, {"title":"Quantum Computing"}],
+  "interests": [
+    {
+      "title": "Computer Vision"
+    },
+    {
+      "title": "Medicine"
+    },
+    {
+      "title": "Quantum Computing"
+    }
+  ],
   "references": [],
   "projects": []
 }
