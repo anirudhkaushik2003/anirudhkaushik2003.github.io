@@ -5,7 +5,7 @@ date:   2020-05-27 19:41:00 +0530
 description: march & april, looking forward to summer
 tags: Sketching
 categories: art
-thumbnail: assets/img/layers-of-fear.jpeg
+thumbnail: assets/img/layers-of-fear-subject.jpg
 ---
 This was the third of a series of 3 "proper" sketches that I attempted. Proper in terms of the amount of time I was willing to spend in making them.
 <div class="row mt-3">
