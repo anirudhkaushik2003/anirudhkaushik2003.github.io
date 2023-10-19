@@ -30,7 +30,14 @@ Layers of Fear was full of interesting painting such as the one below
 </div>
 
 However, there wasn't much to sketch in this one. 
-There were several paintings of the MC's wife, in various stages of burns
+There were several paintings of the MC's wife, in various stages of burns and disfigurement. 
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/layers-of-fear-progression.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+
+Out of these, the second had the most potential for a sketch in terms of shading and contrast. I wanted to make something where you could visualize the color from the sketch itself. In this I was unsuccessful,  but the sketch turned out nice.
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
