@@ -19,7 +19,7 @@ This was the third of a series of 3 "proper" sketches that I attempted. Proper i
 </div>
 
 ### Chosing the subject
-Layers of Fear was full of interesting painting such as the one below
+Layers of Fear was full of interesting paintings such as the one below
 
 <div class="row mt-3">
     <div class="mx-auto d-block">

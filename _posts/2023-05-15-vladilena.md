@@ -34,4 +34,4 @@ Getting the expression was a bit tricky.
 </div>
 
 #### Final thoughts
- - I feel adding color made her look younger
+ - adding color makes it younger
