@@ -1,0 +1,36 @@
+---
+layout: post
+title:  Red Riding Hood
+date:   2022-02-09 22:02:00 +0530
+description: Comic strip, Red Riding Hood
+tags: Sketching, Manga
+categories: Art
+giscus_comments: true
+thumbnail: assets/img/touka_subject.jpg
+---
+
+<div class="row mt-3">
+    <div class="mx-auto d-block">
+        {% include figure.html path="assets/img/touka_subject.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    Subject
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/touka-sketch.jpeg" class="img-fluid rounded z-depth-1"  style="transform:rotate(270deg);" zoomable=true %}
+    </div>
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.html path="assets/img/touka-color.jpeg" class="img-fluid rounded z-depth-1"  style="transform:rotate(270deg);" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+    final sketch and full color image
+</div>
+
+### Final Thoughts 
+ - Summer vacation, passion fruit sodas and pan pizzas
+ - Melanoma is the most common skin cancer in young adults, susceptibility increases if you've experienced sunburns in your childhood
