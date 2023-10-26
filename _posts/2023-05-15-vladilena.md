@@ -19,8 +19,6 @@ Vladilena Milizé, from 86
     Subject
 </div>
 
-Getting the expression was a bit tricky.
-
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/vladilena-sketch.jpeg" class="img-fluid rounded z-depth-1" zoomable=true %}
@@ -32,6 +30,3 @@ Getting the expression was a bit tricky.
 <div class="caption">
     final sketch and full color image
 </div>
-
-#### Final thoughts
- - adding color makes it younger

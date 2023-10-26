@@ -8,7 +8,6 @@ categories: Art
 giscus_comments: true
 thumbnail: assets/img/layers-of-fear-subject.jpg
 ---
-This was the third of a series of 3 "proper" sketches that I attempted. Proper in terms of the amount of time I was willing to spend in making them.
 <div class="row mt-3">
     <div class="mx-auto d-block">
         {% include figure.html path="assets/img/layers-of-fear-subject.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
@@ -31,15 +30,14 @@ Layers of Fear was full of interesting paintings such as the one below
 </div>
 
 However, there wasn't much to sketch in this one. 
-There were several paintings of the MC's wife, in various stages of burns and disfigurement. 
+There were several paintings of the wife.
 <div class="row mt-3">
     <div class="mx-auto d-block">
         {% include figure.html path="assets/img/layers-of-fear-progression.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 
-Out of these, the second had the most potential for a sketch in terms of shading and contrast. I wanted to make something where you could visualize the color from the sketch itself. In this I was unsuccessful,  but the sketch turned out nice.
-
+Out of these, the second had the most potential for a sketch in terms of shading and contrast.
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/layers-of-fear-subject.jpg" class="img-fluid rounded z-depth-1" zoomable=true %}
