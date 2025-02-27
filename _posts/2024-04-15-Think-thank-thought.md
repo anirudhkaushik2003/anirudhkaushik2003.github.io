@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  Makima
-date:   2025-02-26 11:46:00 +0530
-description: Think, Thank, Thought
+title:  Think, Thank, Thought
+date:   2024-04-15 11:46:00 +0530
+description: A short story about the suppressed alter of girl with DID
 tags: Stories
 categories: Writing
 giscus_comments: true
-thumbnail: assets/img/think_thank_thought.jpg
+thumbnail: assets/img/think_thank_thought.png
 ---
 
 # Think, Thank, Thought

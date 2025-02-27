@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  Makima
-date:   2025-02-26 11:46:00 +0530
-description: Splintered Marionette
+title:  Splintered Marionette
+date:   2025-02-26 03:32:00 +0530
+description: A short story about a marionette doll
 tags: Stories
 categories: Writing
 giscus_comments: true
