@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  Think, Thank, Thought
-date:   2024-04-15 11:46:00 +0530
-description: A short story about the suppressed alter of girl with DID
+title:  The king of the mountain
+date:   2024-15-02 20:12:00 +0530
+description: A short story about a petulant girl and her unsavory beverage
 tags: Stories
 categories: Writing
 giscus_comments: true
