@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  The king of the mountain
-date:   2024-15-02 20:12:00 +0530
+title:  The King of the Mountain
+date:   2023-11-02 20:12:00 +0530
 description: A short story about a petulant girl and her unsavory beverage
 tags: Stories
 categories: Writing
