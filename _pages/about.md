@@ -19,11 +19,11 @@ selected_papers: true # includes a list of papers marked as "selected={false}"
 social: false  # includes social icons at the bottom of the page
 ---
 ### About Me
-Upcoming SWE intern at Mircosoft.
+Upcoming SWE at Mircosoft.
 <br>
-I'm an Undergraduate Researcher at CVIT, IIIT Hyderabad. I work on Medical Image Analysis and Computer Aided Diagnosis with Prof. Jayanthi Sivaswamy.
+I'm a Master's Student at CVIT, IIIT Hyderabad. I work on Medical Image Analysis and Computer Aided Diagnosis with Prof. Jayanthi Sivaswamy.
 <br>
 
-Founder and Co-ordinator of IIIT Society of Applied Quantum Computing.
+Founder and Ex-Co-ordinator of IIIT Society of Applied Quantum Computing.
   
 

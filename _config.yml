@@ -263,8 +263,8 @@ jekyll-archives:
     tag: '/blog/tag/:name/'
     category: '/blog/category/:name/'
 
-display_tags: ['Sketching', 'Routines', 'Microscopy', 'Manga', 'Game-dev', 'Piano', 'Guitar'] # these tags will be displayed on the front page of your blog
-display_categories: ['Art', 'Fitness', 'Travel', 'Music'] # these categories will be displayed on the front page of your blog
+display_tags: ['Sketching', 'Stories'] # these tags will be displayed on the front page of your blog
+display_categories: ['Art', 'Writing'] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
@@ -272,8 +272,8 @@ display_categories: ['Art', 'Fitness', 'Travel', 'Music'] # these categories wil
 
 scholar:
 
-  last_name: [Einstein]
-  first_name: [Albert, A.]
+  last_name: [Kaushik]
+  first_name: [Anirudh]
 
   style: apa
   locale: en
