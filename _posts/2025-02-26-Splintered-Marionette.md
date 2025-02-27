@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Makima
-date:   2023-10-24 11:46:00 +0530
+date:   2025-02-26 11:46:00 +0530
 description: Splintered Marionette
 tags: Stories
 categories: Writing
