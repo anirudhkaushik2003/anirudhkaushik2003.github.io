@@ -6,7 +6,7 @@ description: A short story about a marionette doll
 tags: Stories
 categories: Writing
 giscus_comments: true
-thumbnail: assets/img/marionette.jpg
+thumbnail: assets/img/marionette.png
 ---
 
 # Splintered Marionette
