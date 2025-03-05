@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".background-wrapper").forEach(e=>{const t=e.getAttribute("data-bg");t&&(e.style.backgroundImage=`url(${t})`)})});
