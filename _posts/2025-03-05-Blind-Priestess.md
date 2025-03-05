@@ -9,7 +9,7 @@ giscus_comments: true
 thumbnail: assets/img/blind_priestess.png
 ---
 
-<div class="background-wrapper" data-bg="{{ '/assets/img/background.jpg' | relative_url }}">
+<div class="background-wrapper" data-bg="{{ '/assets/img/blind_priestess.png' | relative_url }}">
 <div class="content-container">
         A strange scent, diffused light, muted as it passed through the lids of her closed eyes. She turned her head and smiled. The click of the key turning in its lock, the sound of the door opening. She stood and felt the back of her chair. The scent, the soft thuds which approached her. Flowers, the scent gave them away. A gift. She pretended to be surprised, the soft smile never leaving her. It grew wider as their fingers brushed in the exchange.
 
