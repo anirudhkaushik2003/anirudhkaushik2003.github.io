@@ -7,7 +7,10 @@ tags: Stories
 categories: Writing
 giscus_comments: true
 thumbnail: assets/img/marionette.png
+background_image: assets/img/marionette.png
 ---
+
+<div class="side-banner-wrapper" {% if page.background_image %} data-bg="{{ page.background_image | relative_url }}"{% endif %}>
 
 The old puppet sat on the attic floor, leaning against a box, just out of reach of the sunbeam from the single attic window. She waited patiently for the sun to dip. As the subbeam retreated towards the wall, she began to twitch until finally, it was nighttime.
 
@@ -33,3 +36,5 @@ Her wooden hands searched the ashtray till she found a half stub and she lit it,
 As the first rays of dawn broke the night, she rushed up the attic stair, sparing one parting glance to the sleeping infant’s cradle. She would spend more time with him next time, when he was older. 
 
 She took her place in the dust mould and leaned back against the box as the sunbeam began to creep up.
+
+</div>

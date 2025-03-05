@@ -7,7 +7,10 @@ tags: Stories
 categories: Writing
 giscus_comments: true
 thumbnail: assets/img/king_of_the_mountain.png
+background_image: assets/img/king_of_the_mountain.png
 ---
+
+<div class="side-banner-wrapper" {% if page.background_image %} data-bg="{{ page.background_image | relative_url }}"{% endif %}>
 
 A little girl sat in her room, alone, listening to music. She was sad, for today she had been forced to eat no less than 3 carrots during lunch. She barely had any space left for dessert and very reluctantly parted with the remaining piece of cake. She decided to hole up in her room and listen to music as a form of silent protest. However, it was not a silent protest and her parents found it obnoxious. 
 
@@ -30,3 +33,5 @@ The king stared at the girl and the girl stared back, not a word was said. Final
 A delicate aroma filled the king’s nose and made its way into his lungs from where it spread through his entire body. He had never smelt anything so deliciously sweet yet so awfully pungent. What could have produced such an aroma? He grabbed the girl and took her with him. He cut her open to find the sweet hot chocolate with two spoons of sugar inside her stomach, but there was something else… Three boiled carrot floated in the dark brown liquid. 
 
 The king drank his fill and was overcome with the most lovely feeling. A most relaxing sleepiness overtook him as he sank into his bed which felt softer than ever. His eyes drooped and he fell into dream-filled slumber.
+
+</div>
