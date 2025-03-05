@@ -32,14 +32,12 @@
     background-repeat: no-repeat;
     opacity: 0.5;
     z-index: -1;
+    filter: none !important; /* Kill any inherited filter */
+    mix-blend-mode: normal !important;
+    will-change: transform; /* Helps to isolate rendering */
+    isolation: isolate;
+    pointer-events: none;
   }
-
-.side-banner-wrapper::before,
-.side-banner-wrapper::after {
-  /* existing styles */
-  filter: none !important; /* Removes any brightness/invert applied by the theme */
-  mix-blend-mode: normal !important; /* Ensures it doesn't blend with theme backgrounds */
-}
 
 @media (prefers-color-scheme: dark) {
     .side-banner-wrapper::before,
