@@ -9,8 +9,6 @@ giscus_comments: true
 thumbnail: assets/img/a_rather_pleasant_evening.png
 ---
 
-# A rather pleasant evening
-
 She sat alone in the library, reading at an excruciatingly slow pace. Her movements were deliberate and calculated to cause maximum discomfort to herself. She sat with her ankles folded under her at odd positions, her eyes uncomfortably far from the reading material, her back slouched till she resembled a snail, her neck strained till it formed an L. Her fingernails scratched at the pages like chalk on board making uncomfortable sounds which gave her goosebumps and made her toes curl up.
 
 Her appearance was delicate, her eyes sharp and curious, her nose slim, her skin fair and smooth and her hair soft and neatly braided, freshly washed and fragrant. She had a cup of piping hot tea next to her as she read, letting her fingers burn on the cup for as long as she could. She sipped the tea without blowing first, letting it gently burn her tongue and throat as she swallowed. She read slowly, making sure to read each word over and over again.

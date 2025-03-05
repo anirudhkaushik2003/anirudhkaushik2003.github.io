@@ -9,8 +9,6 @@ giscus_comments: true
 thumbnail: assets/img/two_at_a_time.png
 ---
 
-# Two at a time
-
 No matter how much she tried, her little legs just won’t stretch that far. She couldn’t climb the steps two at a time. She begged her father to teach her, a man who could climb 3 steps with a single lunge. He told her that climbing more than one step at a time was not very lady like and that she should put her foolish ambitions to rest. But the girl was no giver upper. However determined she may be, she was no fool, jumping on the stairs was forbidden. The only way forward was to stretch and grow her legs.
 
 Everyday the girl would stretch. She asked the local farmers to tie her legs to their horses and pull but all she got was a whack. When hard work didn’t work, the girl resorted to prayer and offered her younger brother but the gods did not lend her their ear.

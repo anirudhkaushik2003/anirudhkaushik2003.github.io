@@ -9,8 +9,6 @@ giscus_comments: true
 thumbnail: assets/img/king_of_the_mountain.png
 ---
 
-# The king of the mountain
-
 A little girl sat in her room, alone, listening to music. She was sad, for today she had been forced to eat no less than 3 carrots during lunch. She barely had any space left for dessert and very reluctantly parted with the remaining piece of cake. She decided to hole up in her room and listen to music as a form of silent protest. However, it was not a silent protest and her parents found it obnoxious. 
 
 The girl had good grades in school, was atheletic and could be considered decently pretty. What then, was her vice because of which she found herself in such an unfavourable circumstance. After her brain failed to solve this conundrum, the girl resorted to throwing tantrums. However, the loud music was a cause for concern. 

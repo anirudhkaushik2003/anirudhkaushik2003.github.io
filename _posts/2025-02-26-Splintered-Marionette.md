@@ -9,8 +9,6 @@ giscus_comments: true
 thumbnail: assets/img/marionette.png
 ---
 
-# Splintered Marionette
-
 The old puppet sat on the attic floor, leaning against a box, just out of reach of the sunbeam from the single attic window. She waited patiently for the sun to dip. As the subbeam retreated towards the wall, she began to twitch until finally, it was nighttime.
 
 She stood on shaky legs and brushed off the dust that had settled on her. Her mouth opened and closed with a clicking sound as she adjusted her rusty mechanisms. She walked by an old mirror and lifted the white sheet that covered it to reveal it’s cracked surface. She gave an approving nod to her appearance, a little worse for wear since she last saw herself, but beautiful nonetheless. 
