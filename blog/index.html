@@ -13,6 +13,7 @@ pagination:
     after: 3  # The number of links after the current page
 ---
 
+<div class="side-banner-wrapper" {% if page.background_image %} data-bg="{{ page.background_image | relative_url }}"{% endif %}>
 <div class="post">
 
   {% assign blog_name_size = site.blog_name | size %}
@@ -165,4 +166,5 @@ pagination:
 
   {% include pagination.html %}
 
+</div>
 </div>
