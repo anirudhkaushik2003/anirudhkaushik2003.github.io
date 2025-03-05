@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".background-wrapper").forEach(e=>{const t=e.getAttribute("data-bg");t&&(e.style.backgroundImage=`url(${t})`)})});
+document.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".side-banner-wrapper");if(e){const t=e.getAttribute("data-bg");t&&document.documentElement.style.setProperty("--side-banner-bg",`url(${t})`)}});
