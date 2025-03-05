@@ -7,8 +7,10 @@ tags: Stories
 categories: Writing
 giscus_comments: true
 thumbnail: assets/img/a_rather_pleasant_evening.png
+background_image: assets/img/a_rather_pleasant_evening.png
 ---
 
+<div class="side-banner-wrapper" {% if page.background_image %} data-bg="{{ page.background_image | relative_url }}"{% endif %}>
 She sat alone in the library, reading at an excruciatingly slow pace. Her movements were deliberate and calculated to cause maximum discomfort to herself. She sat with her ankles folded under her at odd positions, her eyes uncomfortably far from the reading material, her back slouched till she resembled a snail, her neck strained till it formed an L. Her fingernails scratched at the pages like chalk on board making uncomfortable sounds which gave her goosebumps and made her toes curl up.
 
 Her appearance was delicate, her eyes sharp and curious, her nose slim, her skin fair and smooth and her hair soft and neatly braided, freshly washed and fragrant. She had a cup of piping hot tea next to her as she read, letting her fingers burn on the cup for as long as she could. She sipped the tea without blowing first, letting it gently burn her tongue and throat as she swallowed. She read slowly, making sure to read each word over and over again.
@@ -34,3 +36,4 @@ Her mother smiled sweetly at her as she left and her dad gave her a loving hug w
 As soon as the girl stepped on the street, a large truck hit her, the guardian angel had a mild concussion and was slow to react, unable to protect her. He was severed from her instantly for the girl had died. He floated along aimlessly.
 
 He arrived at a garden, the october sun casting an orange glow on the trees as the afternoon melted away. The cool breeze bit sharply at him as he rested under a tree. His head felt heavy but he felt peaceful. His body ached but he felt at ease. He slowly began to disappear as the evening faded, muttering a soft “Thank you” under his breath as he rejoined the stars.
+</div>
