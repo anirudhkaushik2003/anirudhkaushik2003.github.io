@@ -48,3 +48,32 @@ body.sticky-bottom-footer {
 *****************************************************************************/
 
 // TODO: redefine projects layout.
+
+.background-wrapper {
+  position: relative;
+  padding: 4rem 1rem;
+  display: flex;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.background-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* optional dark overlay */
+  z-index: 1;
+}
+
+.content-container {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+}
