@@ -1,8 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".background-wrapper").forEach((el) => {
-      const bg = el.getAttribute("data-bg");
+    const bannerWrapper = document.querySelector(".side-banner-wrapper");
+    if (bannerWrapper) {
+      const bg = bannerWrapper.getAttribute("data-bg");
       if (bg) {
-        el.style.backgroundImage = `url(${bg})`;
+        document.documentElement.style.setProperty('--side-banner-bg', `url(${bg})`);
       }
-    });
+    }
   });
+  
