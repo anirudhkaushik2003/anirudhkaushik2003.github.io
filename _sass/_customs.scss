@@ -2,6 +2,7 @@
     position: relative;
     background-color: var(--global-bg-color); // matches the theme's background
     padding: 2rem;
+    contain: paint;
   }
   
   .side-banner-wrapper::before {
@@ -38,10 +39,3 @@
     isolation: isolate;
     pointer-events: none;
   }
-
-@media (prefers-color-scheme: dark) {
-    .side-banner-wrapper::before,
-    .side-banner-wrapper::after {
-      opacity: 0.4; /* Slightly less in dark mode if needed */
-    }
-}
