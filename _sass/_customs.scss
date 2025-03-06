@@ -2,7 +2,6 @@
     position: relative;
     background-color: var(--global-bg-color); // matches the theme's background
     padding: 2rem;
-    contain: paint;
   }
   
   .side-banner-wrapper::before {
