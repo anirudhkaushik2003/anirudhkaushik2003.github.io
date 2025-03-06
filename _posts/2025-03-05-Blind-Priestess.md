@@ -2,7 +2,7 @@
 layout: post
 title:  Blind Priestess
 date:   2025-03-05 17:21:00 +0530
-description: A short story about homely routines
+description: A short story about homely rituals shielded by faith
 tags: Stories
 categories: Writing
 giscus_comments: true
