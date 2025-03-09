@@ -6,7 +6,7 @@ subtitle: <a href='#'>Undergraduate Researcher, CVIT, IIIT Hyderabad</a>.
 
 profile:
   align: right
-  image: pp.png
+  image: pp.jpeg
   image_circular: true # crops the image to make it circular
   address: >
     <p>New Delhi, India</p>
