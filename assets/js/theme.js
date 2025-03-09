@@ -93,7 +93,7 @@ let initTheme = (theme) => {
     // if (userPref && userPref("(prefers-color-scheme: dark)").matches) {
     //   theme = "dark";
     // }
-    theme = "light";
+    theme = "dark";
   }
 
   setTheme(theme);
