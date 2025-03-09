@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Undergraduate Researcher, CVIT, IIIT Hyderabad</a>. 
+subtitle: <a href='#'>Software Engineer at Microsoft, Master's Researcher in Computer Science, CVIT IIIT Hyderabad</a>. 
 
 profile:
   align: right
