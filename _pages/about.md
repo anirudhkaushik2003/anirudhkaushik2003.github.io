@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Software Engineer at Microsoft, Master's Researcher in Computer Science, CVIT IIIT Hyderabad</a>. 
+subtitle: <a href='https://www.linkedin.com/in/anirudh-kaushik-252b6922a/'>Software Engineer at Microsoft, Master's Researcher in Computer Science, CVIT IIIT Hyderabad</a>.
 
 profile:
   align: right
