@@ -2,7 +2,7 @@
 layout: page
 permalink: /publications/
 title: publications
-description: My publications in the field of Computer vision and Medical Image Computing
+description: My publications in the field of Computer Vision and Medical Image Computing
 nav: true
 nav_order: 1
 ---
