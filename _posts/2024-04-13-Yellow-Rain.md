@@ -2,7 +2,7 @@
 layout: post
 title:  Yellow Rain
 date:   2024-04-13 14:22:00 +0530
-description: A short story about yearning
+description: A short story about a girl who roams the streets at night
 tags: Stories
 categories: Writing
 giscus_comments: true
