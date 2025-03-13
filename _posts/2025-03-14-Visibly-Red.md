@@ -17,7 +17,7 @@ I twirled a strand of her soft, freshly washed hair, and she smiled as she conti
 <br><br>
 She stood in the doorway, giving me a sorry look, but it is I who should feel sorry for her. “I wanted to complete the story, but I can’t tonight, I’m too tired” she managed a smile before leaving, I did not smile back.
 <br><br>
-I lay awake in bed, till finally, I heard him return. It was quiet for a while, almost … *domestic*, till it wasn’t. I turned on the tele, to nothing in particular and returned to my bed. The humming and moaning lulled me to sleep.
+I laid awake in bed, till finally, I heard him return. It was quiet for a while, almost … *domestic*, till it wasn’t. I turned on the tele, to nothing in particular and returned to my bed. The humming and moaning lulled me to sleep.
 <br><br>
 I woke up next morning and made my way downstairs, it was colder today. I entered the living room and only found him. “Who’s going to make breakfast?”. He didn’t reply, so I repeated myself again and again till he finally saw me.
 <br><br>
