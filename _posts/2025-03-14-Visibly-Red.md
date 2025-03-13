@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  Visibly Red
-date:   2025-03-06 17:41:00 +0530
+date:   2025-03-14 03:04:00 +0530
 description: A short story about simmering resentment
 tags: Stories
 categories: Writing
