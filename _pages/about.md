@@ -6,7 +6,7 @@ subtitle: <a href='https://www.linkedin.com/in/anirudh-kaushik-252b6922a/'>Softw
 
 profile:
   align: right
-  image: pp.jpeg
+  image: profile_image.jpeg
   image_circular: true # crops the image to make it circular
   address: >
     <p>New Delhi, India</p>
