@@ -20,8 +20,8 @@
   var BASE_URL = (document.querySelector('meta[name="baseurl"]') || {}).content || '';
   var SPRITE_BASE = BASE_URL + '/assets/world/sprites/';
 
-  // Cloud image filenames (will be populated after checking what exists)
-  var CLOUD_IMAGES = ['cloud1_test.png', 'cloud_64x32.png', 'cloud_large.png'];
+  // Only use the clean small pixel cloud image
+  var CLOUD_IMAGE = 'cloud_64x32.png';
 
   var CRITTER_DEFS = [
     { name: 'fox',       folder: 'fox',       prefix: 'red',   hasLie: true,  size: 'normal' },
@@ -33,25 +33,27 @@
     { name: 'chicken',   folder: 'chicken',   prefix: 'white', hasLie: false, size: 'normal' }
   ];
 
-  var MAX_PLATFORM_CRITTERS = IS_MOBILE ? 2 : 5;
+  var MAX_PLATFORM_CRITTERS = IS_MOBILE ? 2 : 4;
   var MAX_GROUND_CRITTERS = IS_MOBILE ? 2 : 3;
-  var MAX_CLOUDS = IS_MOBILE ? 3 : 7;
+  var MAX_CLOUDS = IS_MOBILE ? 3 : 6;
   var MAX_SPARKLES = IS_MOBILE ? 10 : 25;
   var MAX_STARS = IS_MOBILE ? 25 : 60;
 
-  // Selectors for elements that can be "platforms" for critters
+  // Selectors for elements that can be "platforms" for critters to walk on
   var PLATFORM_SELECTORS = [
     '.navbar',
     '.card',
     '.container.mt-5 > .post',
     '.container.mt-5 > .row',
     '.container.mt-5 > article',
-    'a.btn, button.btn',
-    '.btn-group',
     '.profile',
     '.post-title',
     '.tag',
-    '.badge'
+    '.badge',
+    'a.btn, button.btn',
+    '.btn-group',
+    'h1', 'h2',
+    '.post-header'
   ];
 
   // ========================================================================
@@ -88,7 +90,7 @@
   }
 
   // ========================================================================
-  // CLOUDS — pixel art images drifting across sky
+  // CLOUDS — single pixel art image, varied with CSS
   // ========================================================================
 
   function createClouds() {
@@ -101,7 +103,7 @@
       el.className = 'world-cloud world-cloud--' + sizeClass;
 
       var img = document.createElement('img');
-      img.src = SPRITE_BASE + 'clouds/' + pick(CLOUD_IMAGES);
+      img.src = SPRITE_BASE + 'clouds/' + CLOUD_IMAGE;
       img.alt = '';
       img.draggable = false;
       // Fallback: if image fails, use a CSS cloud shape
@@ -111,13 +113,15 @@
         this.parentElement.style.height = '24px';
         this.parentElement.style.background = 'var(--world-cloud-color)';
         this.parentElement.style.borderRadius = '12px';
-        this.parentElement.style.opacity = '0.6';
+        this.parentElement.style.opacity = '0.5';
       };
       el.appendChild(img);
 
-      el.style.top = rand(5, 42) + '%';
-      var duration = rand(50, 110);
-      var delay = rand(0, 70);
+      // Vary opacity slightly for depth
+      el.style.opacity = rand(0.5, 0.9);
+      el.style.top = rand(2, 38) + '%';
+      var duration = rand(60, 130);
+      var delay = rand(0, 80);
       el.style.animation = 'cloud-drift ' + duration + 's ' + delay + 's linear infinite';
 
       container.appendChild(el);
@@ -173,22 +177,30 @@
     var seen = new Set();
 
     PLATFORM_SELECTORS.forEach(function (sel) {
-      var els = document.querySelectorAll(sel);
-      els.forEach(function (el) {
-        if (seen.has(el)) return;
-        seen.add(el);
-        var rect = el.getBoundingClientRect();
-        // Skip elements that are too small, off-screen, or invisible
-        if (rect.width < 50 || rect.height < 10) return;
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        if (rect.right < 0 || rect.left > window.innerWidth) return;
+      try {
+        var els = document.querySelectorAll(sel);
+        els.forEach(function (el) {
+          if (seen.has(el)) return;
+          seen.add(el);
+          var rect = el.getBoundingClientRect();
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        platforms.push({
-          el: el,
-          rect: rect,
-          type: sel
+          // Skip elements that are too small or invisible
+          if (rect.width < 60 || rect.height < 10) return;
+          // Skip elements far off-screen (allow some margin for scrolling)
+          if (rect.bottom < -500 || rect.top > window.innerHeight + 500) return;
+          if (rect.right < 0 || rect.left > window.innerWidth) return;
+
+          platforms.push({
+            el: el,
+            rect: rect,
+            absTop: rect.top + scrollTop,
+            type: sel
+          });
         });
-      });
+      } catch (e) {
+        // Ignore invalid selectors
+      }
     });
 
     return platforms;
@@ -212,7 +224,7 @@
 
   /**
    * Create a critter on a specific platform.
-   * platform = { left, right, top } in viewport px — the surface the critter walks on.
+   * platform = { el, left, right, top } in viewport px.
    * If platform is null, critter walks on the bottom of the viewport.
    */
   function createCritter(def, platform) {
@@ -226,6 +238,10 @@
     img.src = spriteUrl(def, 'idle');
     img.alt = '';
     img.draggable = false;
+    img.onerror = function() {
+      // If sprite fails to load, hide this critter
+      el.style.display = 'none';
+    };
     el.appendChild(img);
 
     document.body.appendChild(el);
@@ -234,14 +250,12 @@
     var bounds;
 
     if (platform) {
-      // Walk on top of this platform element
       bounds = {
         left: platform.left,
         right: platform.right,
-        top: platform.top - h // critter sits on top of the platform
+        top: platform.top - h
       };
     } else {
-      // Walk on the ground (bottom of viewport)
       bounds = {
         left: 10,
         right: window.innerWidth - 40,
@@ -249,7 +263,7 @@
       };
     }
 
-    var x = rand(bounds.left + 5, bounds.right - 5);
+    var x = rand(bounds.left + 5, Math.max(bounds.left + 10, bounds.right - 35));
     el.style.left = x + 'px';
     el.style.top = bounds.top + 'px';
 
@@ -260,7 +274,7 @@
       state: 'idle',
       direction: Math.random() > 0.5 ? 1 : -1,
       stateTimer: rand(3000, 7000),
-      speed: rand(8, 25), // px per second
+      speed: rand(8, 25),
       def: def,
       bounds: bounds,
       platformEl: platform ? platform.el : null,
@@ -382,7 +396,6 @@
     for (var i = 0; i < platformCount; i++) {
       var p = shuffledPlatforms[i];
       var rect = p.rect;
-      // Only place critters on platforms wide enough
       if (rect.width < 80) continue;
 
       var platform = {
@@ -393,7 +406,7 @@
       };
 
       var def = nextDef();
-      // Don't put large critters (totoro) on small platforms
+      // Don't put large critters on small platforms
       if (def.size === 'large' && rect.width < 200) {
         def = nextDef();
       }
@@ -451,7 +464,6 @@
   function onResize() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
-      // Remove all critters and respawn
       critters.forEach(function (c) { c.el.remove(); });
       critters.length = 0;
       spawnCritters();
@@ -467,7 +479,11 @@
     createClouds();
     createStars();
     createSparkles();
-    spawnCritters();
+
+    // Delay critter spawning slightly to ensure DOM is fully laid out
+    setTimeout(function() {
+      spawnCritters();
+    }, 300);
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
@@ -482,6 +498,7 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    init();
+    // Additional delay for deferred scripts
+    setTimeout(init, 100);
   }
 })();
