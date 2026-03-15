@@ -36,7 +36,8 @@
       "Bash(cmd.exe /c \"where ruby\")",
       "Bash(cmd.exe /c \"where bundle\")",
       "Bash(ls \"C:/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/\"*.png)",
-      "Read(//c/Users/anikaushik/Desktop/**)"
+      "Read(//c/Users/anikaushik/Desktop/**)",
+      "Bash(grep:*)"
     ]
   }
 }
