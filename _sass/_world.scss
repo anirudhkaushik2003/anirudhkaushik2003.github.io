@@ -19,7 +19,7 @@
 }
 
 // ============================================================================
-// SKY — covers entire viewport as base
+// SKY
 // ============================================================================
 
 #world-sky {
@@ -33,7 +33,7 @@
 }
 
 // ============================================================================
-// CLOUDS — pure CSS fluffy clouds drifting across sky
+// CLOUDS — pure CSS fluffy clouds, SLOW gentle drift
 // ============================================================================
 
 #world-clouds {
@@ -46,12 +46,10 @@
   overflow: hidden;
 }
 
-// Cloud base: a rounded rectangle with ::before and ::after puffs
 .world-cloud {
   position: absolute;
   background: var(--world-cloud-color);
   border-radius: 50px;
-  opacity: 0.9;
 
   &::before,
   &::after {
@@ -61,7 +59,6 @@
     border-radius: 50%;
   }
 
-  // Left puff — smaller
   &::before {
     width: 55%;
     height: 140%;
@@ -69,7 +66,6 @@
     left: 12%;
   }
 
-  // Right puff — larger
   &::after {
     width: 45%;
     height: 120%;
@@ -78,7 +74,6 @@
   }
 }
 
-// Size variants
 .world-cloud--small {
   width: 80px;
   height: 28px;
@@ -98,7 +93,7 @@
 }
 
 // ============================================================================
-// STARS — dark mode only, twinkling dots
+// STARS — dark mode only
 // ============================================================================
 
 #world-stars {
@@ -139,7 +134,21 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// BEACH + OCEAN — sand strip then water at bottom of viewport
+// BEACH — sand strip, separate layer ABOVE ocean
+// ============================================================================
+
+#world-beach {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  z-index: 3;
+  background: var(--world-sand-gradient);
+}
+
+// ============================================================================
+// OCEAN — water below the beach
 // ============================================================================
 
 #world-water {
@@ -147,38 +156,22 @@ html[data-theme='dark'] #world-stars {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%;
+  height: 22%;
   z-index: 2;
   overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    var(--world-ocean-shallow) 0%,
+    var(--world-ocean-mid) 40%,
+    var(--world-ocean-deep) 100%
+  );
 }
 
-// Sand/beach strip at top of the water zone
-.world-beach {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 35%;
-  background: var(--world-sand-gradient);
-  z-index: 1;
-}
-
-// Main ocean body below the beach
-.world-ocean {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  background: linear-gradient(180deg, var(--world-ocean-shallow) 0%, var(--world-ocean-mid) 40%, var(--world-ocean-deep) 100%);
-}
-
-// Layered wave strips for gentle motion
+// Gentle wave strips — VERY slow
 .world-wave {
   position: absolute;
   left: -5%;
   width: 110%;
-  height: 20px;
   border-radius: 50%;
   animation: wave-bob ease-in-out infinite;
 
@@ -186,50 +179,50 @@ html[data-theme='dark'] #world-stars {
     top: 0;
     height: 30px;
     background: var(--world-ocean-shallow);
-    opacity: 0.5;
-    animation-duration: 8s;
+    opacity: 0.4;
+    animation-duration: 20s;
   }
   &--2 {
-    top: 8px;
+    top: 10px;
     height: 24px;
     background: var(--world-ocean-mid);
-    opacity: 0.4;
-    animation-duration: 10s;
-    animation-delay: -3s;
+    opacity: 0.3;
+    animation-duration: 25s;
+    animation-delay: -8s;
   }
   &--3 {
-    top: 16px;
+    top: 20px;
     height: 20px;
     background: var(--world-ocean-shallow);
-    opacity: 0.3;
-    animation-duration: 7s;
-    animation-delay: -1.5s;
+    opacity: 0.25;
+    animation-duration: 18s;
+    animation-delay: -4s;
   }
 }
 
-// Foam line where water meets beach
+// Foam at top edge of ocean
 .world-foam {
   position: absolute;
-  top: 30%;
+  top: -2px;
   left: 0;
   width: 200%;
-  height: 6px;
+  height: 5px;
   background: repeating-linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.8) 0px,
+    rgba(255, 255, 255, 0.7) 0px,
     rgba(255, 255, 255, 0.3) 20px,
     rgba(255, 255, 255, 0) 40px,
     rgba(255, 255, 255, 0.6) 60px,
     rgba(255, 255, 255, 0.2) 80px
   );
-  animation: foam-slide 20s linear infinite;
+  animation: foam-slide 50s linear infinite;
   border-radius: 4px;
   z-index: 2;
 }
 
 @keyframes wave-bob {
-  0%, 100% { transform: translateX(-1%) scaleY(1); }
-  50%      { transform: translateX(1%) scaleY(1.15); }
+  0%, 100% { transform: translateX(-0.5%) scaleY(1); }
+  50%      { transform: translateX(0.5%) scaleY(1.1); }
 }
 
 @keyframes foam-slide {
@@ -237,13 +230,13 @@ html[data-theme='dark'] #world-stars {
   to   { transform: translateX(-50%); }
 }
 
-// Sun/moon shimmer on water surface
+// Sun/moon shimmer
 .world-shimmer {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 50%;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -254,17 +247,17 @@ html[data-theme='dark'] #world-stars {
     var(--world-shimmer-color) 95%,
     transparent 100%
   );
-  opacity: 0.25;
-  animation: shimmer-drift 12s ease-in-out infinite alternate;
+  opacity: 0.2;
+  animation: shimmer-drift 20s ease-in-out infinite alternate;
 }
 
 @keyframes shimmer-drift {
-  from { transform: translateX(-10%); opacity: 0.15; }
-  to   { transform: translateX(10%); opacity: 0.3; }
+  from { transform: translateX(-10%); opacity: 0.1; }
+  to   { transform: translateX(10%); opacity: 0.25; }
 }
 
 // ============================================================================
-// SPARKLES — gold/moonlight dots on the water surface
+// SPARKLES — on the water
 // ============================================================================
 
 #world-sparkles {
@@ -272,8 +265,8 @@ html[data-theme='dark'] #world-stars {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 25%;
-  z-index: 3;
+  height: 20%;
+  z-index: 4;
 }
 
 .world-sparkle {
@@ -282,7 +275,7 @@ html[data-theme='dark'] #world-stars {
   height: 3px;
   border-radius: 50%;
   background: var(--world-sparkle-color);
-  animation: sparkle-fade 2.5s ease-in-out infinite;
+  animation: sparkle-fade 4s ease-in-out infinite;
 
   &--large {
     width: 4px;
@@ -297,7 +290,7 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// CRITTERS — positioned relative to their platform's z-depth
+// CRITTERS — z-index matches their platform
 // ============================================================================
 
 .world-critter {
@@ -326,23 +319,20 @@ html[data-theme='dark'] #world-stars {
   }
 }
 
-// Navbar critters sit just above navbar
 .world-critter--navbar {
   z-index: 1031;
 }
 
-// Content card critters sit just above content
 .world-critter--content {
   z-index: 11;
 }
 
-// Ground-level critters (bottom of viewport)
 .world-critter--ground {
   z-index: 5;
 }
 
 // ============================================================================
-// BODY TRANSPARENCY — let the world show through
+// BODY TRANSPARENCY
 // ============================================================================
 
 body {
@@ -350,7 +340,7 @@ body {
 }
 
 // ============================================================================
-// NAVBAR — frosted glass so world shows through
+// NAVBAR — frosted glass
 // ============================================================================
 
 .navbar {
@@ -368,7 +358,6 @@ body {
   z-index: 10;
 }
 
-// Main content wrapper gets frosted glass
 .container.mt-5 > .post,
 .container.mt-5 > .row,
 .container.mt-5 > article {
@@ -382,7 +371,6 @@ body {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-// Project cards, blog cards
 .card {
   background: var(--world-card-bg) !important;
   backdrop-filter: blur(12px) saturate(1.1);
