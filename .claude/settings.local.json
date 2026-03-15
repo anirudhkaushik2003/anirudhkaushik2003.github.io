@@ -25,7 +25,16 @@
       "WebFetch(domain:thecodeplayer.com)",
       "WebFetch(domain:gist.github.com)",
       "WebFetch(domain:sheryllun.wordpress.com)",
-      "WebFetch(domain:opengameart.org)"
+      "WebFetch(domain:opengameart.org)",
+      "Bash(python3:*)",
+      "Bash(python:*)",
+      "Bash(for f:*)",
+      "Bash(which ruby:*)",
+      "Bash(ls /c/Ruby*)",
+      "Read(//c//**)",
+      "Read(//c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/$LOCALAPPDATA/Programs/**)",
+      "Bash(cmd.exe /c \"where ruby\")",
+      "Bash(cmd.exe /c \"where bundle\")"
     ]
   }
 }

@@ -320,6 +320,103 @@ html[data-theme='dark'] #world-stars { opacity: 1; }
 .world-critter--ground  { z-index: 5; }
 
 // ============================================================================
+// OVERGROWN PLANTS — vines, leaves, grass, flowers on UI elements
+// ============================================================================
+
+.world-plant {
+  position: fixed;
+  pointer-events: none;
+  image-rendering: pixelated;
+  z-index: 11;
+
+  img {
+    display: block;
+    image-rendering: pixelated;
+  }
+
+  // Placement variants
+  &--top {
+    img { transform-origin: top center; }
+  }
+  &--bottom {
+    img { transform-origin: bottom center; }
+  }
+  &--corner-left {
+    img { transform-origin: bottom left; }
+  }
+  &--corner-right {
+    img { transform-origin: bottom right; }
+  }
+
+  // Vine hanging from top edges — gentle sway
+  &--vine {
+    img {
+      height: 48px;
+      width: auto;
+      animation: vine-sway 6s ease-in-out infinite alternate;
+    }
+  }
+
+  // Leaves peeking from corners
+  &--leaf {
+    img {
+      height: 20px;
+      width: auto;
+    }
+  }
+
+  // Grass & flowers along bottom edges
+  &--grass {
+    img {
+      height: 18px;
+      width: auto;
+    }
+  }
+
+  &--flower {
+    img {
+      height: 20px;
+      width: auto;
+    }
+  }
+
+  &--bush {
+    img {
+      height: 20px;
+      width: auto;
+    }
+  }
+
+  &--mushroom {
+    img {
+      height: 18px;
+      width: auto;
+    }
+  }
+
+  // Navbar plants get higher z-index
+  &--navbar-level {
+    z-index: 1031;
+  }
+
+  // Flip horizontally (applied on container so it doesn't fight img animations)
+  &--flipped {
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes vine-sway {
+  0%   { transform: rotate(-1.5deg); }
+  100% { transform: rotate(1.5deg); }
+}
+
+@keyframes leaf-bob {
+  0%   { transform: translateY(0) rotate(0deg); }
+  50%  { transform: translateY(-1px) rotate(1deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+// ============================================================================
 // BODY TRANSPARENCY
 // ============================================================================
 
@@ -395,6 +492,7 @@ body {
   .world-sparkle { opacity: 0.4; }
   .world-star { opacity: 0.5; }
   .world-critter { display: none; }
+  .world-plant--vine img { animation: none !important; }
 }
 
 // ============================================================================

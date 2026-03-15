@@ -96,6 +96,196 @@
     }
   }
 
+  // ── Overgrown Plants ──
+
+  var PLANT_BASE = SPRITE_BASE + 'plants/';
+
+  // Plant types with placement rules
+  var VINE_SPRITES = ['vine1.png', 'vine2.png', 'vine3.png'];
+  var LEAF_SPRITES = ['leaves1.png', 'leaves2.png', 'leaves3.png', 'leaves4.png'];
+  var GRASS_SPRITES = ['grass1.png', 'grass2.png', 'grass3.png', 'grass5.png'];
+  var FLOWER_SPRITES = ['flower1.png', 'flower2.png', 'flower3.png', 'flower4.png'];
+  var BUSH_SPRITES = ['bush1.png'];
+  var MUSHROOM_SPRITES = ['mushroom1.png', 'mushroom2.png'];
+
+  var plants = [];
+
+  var MAX_NAVBAR_VINES = IS_MOBILE ? 3 : 8;
+  var MAX_CARD_PLANTS = IS_MOBILE ? 3 : 6;
+  var MAX_NAVBAR_CORNER_PLANTS = IS_MOBILE ? 2 : 4;
+
+  function createPlantEl(src, cssClass, extraClass) {
+    var el = document.createElement('div');
+    el.className = 'world-plant ' + cssClass + (extraClass ? ' ' + extraClass : '');
+    var img = document.createElement('img');
+    img.src = PLANT_BASE + src;
+    img.alt = '';
+    img.draggable = false;
+    img.onerror = function() { el.style.display = 'none'; };
+    el.appendChild(img);
+    document.body.appendChild(el);
+    return el;
+  }
+
+  function placePlantsOnNavbar() {
+    var navbar = document.querySelector('.navbar') || document.querySelector('nav.navbar');
+    if (!navbar) return;
+    var rect = navbar.getBoundingClientRect();
+    if (rect.width < 100) return;
+
+    // Vines hanging from the bottom edge of the navbar
+    for (var i = 0; i < MAX_NAVBAR_VINES; i++) {
+      var vine = pick(VINE_SPRITES);
+      var el = createPlantEl(vine, 'world-plant--vine world-plant--navbar-level');
+      var xOff = rand(20, rect.width - 40);
+      el.style.left = (rect.left + xOff) + 'px';
+      el.style.top = (rect.bottom - 6) + 'px';
+      el.style.animationDelay = rand(0, 6) + 's';
+      el.style.animationDuration = rand(5, 9) + 's';
+      if (Math.random() > 0.5) el.classList.add('world-plant--flipped');
+      plants.push({ el: el, targetEl: navbar, xOff: xOff, yOff: -6, placement: 'navbar-vine' });
+    }
+
+    // Leaves and flowers on corners/edges of navbar
+    for (var j = 0; j < MAX_NAVBAR_CORNER_PLANTS; j++) {
+      var isLeft = j % 2 === 0;
+      var sprite, cssType;
+      var roll = Math.random();
+      if (roll < 0.4) {
+        sprite = pick(LEAF_SPRITES);
+        cssType = 'world-plant--leaf';
+      } else if (roll < 0.7) {
+        sprite = pick(FLOWER_SPRITES);
+        cssType = 'world-plant--flower';
+      } else {
+        sprite = pick(GRASS_SPRITES);
+        cssType = 'world-plant--grass';
+      }
+      var el2 = createPlantEl(sprite, cssType + ' world-plant--navbar-level');
+      var xOff2 = isLeft ? rand(0, 30) : (rect.width - rand(20, 50));
+      el2.style.left = (rect.left + xOff2) + 'px';
+      el2.style.top = (rect.bottom - 16) + 'px';
+      if (Math.random() > 0.5) el2.classList.add('world-plant--flipped');
+      plants.push({ el: el2, targetEl: navbar, xOff: xOff2, yOff: -16, placement: 'navbar-corner' });
+    }
+  }
+
+  function placePlantsOnCards() {
+    var cardSelectors = [
+      '.card',
+      '.container.mt-5 > .post',
+      '.container.mt-5 > .row',
+      '.container.mt-5 > article'
+    ];
+    var seen = new Set();
+    var allCards = [];
+
+    cardSelectors.forEach(function(sel) {
+      try {
+        document.querySelectorAll(sel).forEach(function(el) {
+          if (seen.has(el)) return;
+          seen.add(el);
+          var rect = el.getBoundingClientRect();
+          if (rect.width < 80 || rect.height < 30) return;
+          if (rect.bottom < -200 || rect.top > window.innerHeight + 400) return;
+          allCards.push({ el: el, rect: rect });
+        });
+      } catch(e) {}
+    });
+
+    allCards.forEach(function(card) {
+      var rect = card.rect;
+      var plantsForCard = Math.min(MAX_CARD_PLANTS, Math.floor(rect.width / 100) + 1);
+
+      for (var i = 0; i < plantsForCard; i++) {
+        var edge = Math.random();
+        var sprite, cssType, xOff, yOff;
+
+        if (edge < 0.35) {
+          // Top edge — leaves and small vines
+          var topRoll = Math.random();
+          if (topRoll < 0.45) {
+            sprite = pick(LEAF_SPRITES);
+            cssType = 'world-plant--leaf';
+          } else if (topRoll < 0.7) {
+            sprite = pick(VINE_SPRITES);
+            cssType = 'world-plant--vine';
+          } else {
+            sprite = pick(FLOWER_SPRITES);
+            cssType = 'world-plant--flower';
+          }
+          xOff = rand(5, rect.width - 30);
+          yOff = -rand(8, 16); // above top edge
+        } else if (edge < 0.65) {
+          // Bottom edge — grass, flowers, mushrooms
+          var botRoll = Math.random();
+          if (botRoll < 0.35) {
+            sprite = pick(GRASS_SPRITES);
+            cssType = 'world-plant--grass';
+          } else if (botRoll < 0.6) {
+            sprite = pick(FLOWER_SPRITES);
+            cssType = 'world-plant--flower';
+          } else if (botRoll < 0.8) {
+            sprite = pick(BUSH_SPRITES);
+            cssType = 'world-plant--bush';
+          } else {
+            sprite = pick(MUSHROOM_SPRITES);
+            cssType = 'world-plant--mushroom';
+          }
+          xOff = rand(5, rect.width - 40);
+          yOff = rect.height - rand(10, 18); // near bottom edge
+        } else {
+          // Corners — leaves, mushrooms
+          var isLeft = Math.random() > 0.5;
+          var cornerRoll = Math.random();
+          if (cornerRoll < 0.5) {
+            sprite = pick(LEAF_SPRITES);
+            cssType = 'world-plant--leaf';
+          } else if (cornerRoll < 0.8) {
+            sprite = pick(MUSHROOM_SPRITES);
+            cssType = 'world-plant--mushroom';
+          } else {
+            sprite = pick(FLOWER_SPRITES);
+            cssType = 'world-plant--flower';
+          }
+          xOff = isLeft ? -rand(2, 8) : (rect.width - rand(15, 25));
+          yOff = rect.height - rand(12, 22);
+        }
+
+        var el = createPlantEl(sprite, cssType);
+        el.style.left = (rect.left + xOff) + 'px';
+        el.style.top = (rect.top + yOff) + 'px';
+        if (Math.random() > 0.5) el.classList.add('world-plant--flipped');
+        plants.push({ el: el, targetEl: card.el, xOff: xOff, yOff: yOff, placement: 'card' });
+      }
+    });
+  }
+
+  function spawnPlants() {
+    placePlantsOnNavbar();
+    placePlantsOnCards();
+  }
+
+  function updatePlantPositions() {
+    plants.forEach(function(p) {
+      if (!p.targetEl) return;
+      var rect = p.targetEl.getBoundingClientRect();
+
+      if (p.placement === 'navbar-vine' || p.placement === 'navbar-corner') {
+        p.el.style.left = (rect.left + p.xOff) + 'px';
+        p.el.style.top = (rect.bottom + p.yOff) + 'px';
+      } else if (p.placement === 'card') {
+        p.el.style.left = (rect.left + p.xOff) + 'px';
+        p.el.style.top = (rect.top + p.yOff) + 'px';
+      }
+    });
+  }
+
+  function removePlants() {
+    plants.forEach(function(p) { p.el.remove(); });
+    plants.length = 0;
+  }
+
   // ── Platform detection ──
 
   function findPlatforms() {
@@ -347,6 +537,7 @@
       scrollTicking = true;
       requestAnimationFrame(function () {
         for (var i = 0; i < critters.length; i++) updateCritterBounds(critters[i]);
+        updatePlantPositions();
         scrollTicking = false;
       });
     }
@@ -367,7 +558,9 @@
     resizeTimer = setTimeout(function () {
       critters.forEach(function (c) { c.el.remove(); });
       critters.length = 0;
+      removePlants();
       spawnCritters();
+      spawnPlants();
     }, 500);
   }
 
@@ -377,7 +570,10 @@
     createClouds();
     createStars();
     createSparkles();
-    setTimeout(spawnCritters, 500);
+    setTimeout(function() {
+      spawnCritters();
+      spawnPlants();
+    }, 500);
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
     requestAnimationFrame(loop);
