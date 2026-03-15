@@ -31,20 +31,24 @@
   --global-danger-block-title: #c00;
 
   // World layer — light mode (Spirited Away afternoon)
-  --world-sky-gradient: linear-gradient(180deg, #87CEEB 0%, #B4E0FA 35%, #FFF8E7 70%, #FFEFC1 100%);
+  // Sky stays blue all the way down to the horizon — no warm cream
+  --world-sky-gradient: linear-gradient(180deg, #5bb5e0 0%, #87CEEB 30%, #a8ddf5 60%, #c2e8fa 100%);
   --world-cloud-color: #ffffff;
   --world-sparkle-color: rgba(255, 255, 255, 0.8);
   --world-card-bg: rgba(255, 255, 245, 0.78);
   --world-card-bg-fallback: rgba(255, 255, 245, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.35);
-  --global-navbar-bg: rgba(255, 252, 240, 0.82);
-  --world-ocean-deep: #1565a0;
-  --world-ocean-mid: #2196c8;
-  --world-ocean-shallow: #4fc3f7;
-  --world-sand-dry: #f4d9a0;
-  --world-sand-wet: #c8a96e;
-  --world-reflection-bright: rgba(255, 255, 255, 0.9);
-  --world-reflection-mid: rgba(255, 255, 240, 0.4);
+  --global-navbar-bg: rgba(230, 245, 255, 0.82);
+  // Ocean — clearly darker/more saturated than the sky
+  --world-ocean-deep: #0d5f8a;
+  --world-ocean-mid: #1580b0;
+  --world-ocean-shallow: #2da5d4;
+  // Beach sand
+  --world-sand-dry: #f0d6a0;
+  --world-sand-wet: #c4a56a;
+  // Sun reflection — white vertical streak
+  --world-reflection-bright: rgba(255, 255, 255, 0.95);
+  --world-reflection-mid: rgba(255, 255, 255, 0.4);
 
   .fa-sun {
     display : none;
@@ -92,20 +96,23 @@ html[data-theme='dark'] {
   --global-danger-block-title: #c00;
 
   // World layer — dark mode (twilight / moonlit)
-  --world-sky-gradient: linear-gradient(180deg, #0B1026 0%, #1A1B3A 30%, #2C3E6B 60%, #4A5A80 100%);
-  --world-cloud-color: rgba(180, 190, 220, 0.3);
+  --world-sky-gradient: linear-gradient(180deg, #080e1a 0%, #0f1730 30%, #1a2a4a 60%, #283d60 100%);
+  --world-cloud-color: rgba(160, 175, 210, 0.25);
   --world-sparkle-color: rgba(200, 220, 255, 0.7);
   --world-card-bg: rgba(28, 28, 35, 0.78);
   --world-card-bg-fallback: rgba(28, 28, 35, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.08);
-  --global-navbar-bg: rgba(15, 15, 30, 0.82);
-  --world-ocean-deep: #071428;
-  --world-ocean-mid: #0e2240;
-  --world-ocean-shallow: #163558;
-  --world-sand-dry: #2e2618;
-  --world-sand-wet: #1e1a12;
-  --world-reflection-bright: rgba(220, 230, 255, 0.8);
-  --world-reflection-mid: rgba(180, 200, 240, 0.3);
+  --global-navbar-bg: rgba(10, 12, 25, 0.85);
+  // Ocean — darker than the sky so horizon is visible
+  --world-ocean-deep: #040c18;
+  --world-ocean-mid: #081628;
+  --world-ocean-shallow: #0c2038;
+  // Beach sand — dark earthy
+  --world-sand-dry: #1e1a12;
+  --world-sand-wet: #141008;
+  // Moon reflection — cool white streak
+  --world-reflection-bright: rgba(210, 225, 255, 0.85);
+  --world-reflection-mid: rgba(170, 195, 240, 0.3);
 
   .fa-sun {
     padding-left: 10px;
