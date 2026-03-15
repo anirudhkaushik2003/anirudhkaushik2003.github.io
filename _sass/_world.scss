@@ -319,70 +319,6 @@ html[data-theme='dark'] #world-stars { opacity: 1; }
 .world-critter--content { z-index: 11; }
 .world-critter--ground  { z-index: 5; }
 
-// ============================================================================
-// OVERGROWN PLANTS — vines, leaves, grass, flowers on UI elements
-// Sprites are 32x32 or 32x64 pixel art — render at native aspect ratio
-// ============================================================================
-
-.world-plant {
-  position: fixed;
-  pointer-events: none;
-  image-rendering: pixelated;
-  z-index: 11;
-
-  img {
-    display: block;
-    image-rendering: pixelated;
-    // Never constrain both axes — let aspect ratio be natural
-    width: auto;
-    height: auto;
-  }
-
-  // ── Size classes (scale factor applied to the container) ──
-  // Sprites are 32px native; we scale them up for pixel-art crispness
-  &--size-sm img  { height: 24px; }
-  &--size-md img  { height: 32px; }
-  &--size-lg img  { height: 40px; }
-  &--size-xl img  { height: 52px; }
-
-  // Vine — 32x64 native, taller than wide. Gentle sway.
-  &--vine img {
-    height: 56px;
-    animation: vine-sway 6s ease-in-out infinite alternate;
-  }
-
-  // Leaves — 32x32 native
-  &--leaf img { height: 28px; }
-
-  // Grass — 32x32 native
-  &--grass img { height: 24px; }
-
-  // Flower — 32x32 native
-  &--flower img { height: 26px; }
-
-  // Bush — 64x32 native (wide!)
-  &--bush img { height: 28px; }
-
-  // Mushroom — 32x32 native
-  &--mushroom img { height: 24px; }
-
-  // ── Z-index layers ──
-  &--navbar-level { z-index: 1031; }
-  &--btn-level    { z-index: 12; }
-
-  // ── Flip (on container so it doesn't fight img animations) ──
-  &--flipped { transform: scaleX(-1); }
-}
-
-@keyframes vine-sway {
-  0%   { transform: rotate(-2deg); }
-  100% { transform: rotate(2deg); }
-}
-
-@keyframes leaf-bob {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-1.5px) rotate(1.5deg); }
-}
 
 // ============================================================================
 // BODY TRANSPARENCY
@@ -488,7 +424,6 @@ html[data-theme='dark'] .navbar {
   .world-sparkle { opacity: 0.4; }
   .world-star { opacity: 0.5; }
   .world-critter { display: none; }
-  .world-plant--vine img { animation: none !important; }
 }
 
 // ============================================================================
