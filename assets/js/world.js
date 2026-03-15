@@ -100,23 +100,29 @@
 
   var PLANT_BASE = SPRITE_BASE + 'plants/';
 
-  // Plant types with placement rules
-  var VINE_SPRITES = ['vine1.png', 'vine2.png', 'vine3.png'];
-  var LEAF_SPRITES = ['leaves1.png', 'leaves2.png', 'leaves3.png', 'leaves4.png'];
-  var GRASS_SPRITES = ['grass1.png', 'grass2.png', 'grass3.png', 'grass5.png'];
+  var VINE_SPRITES   = ['vine1.png', 'vine2.png', 'vine3.png'];
+  var LEAF_SPRITES   = ['leaves1.png', 'leaves2.png', 'leaves3.png', 'leaves4.png'];
+  var GRASS_SPRITES  = ['grass1.png', 'grass2.png', 'grass3.png', 'grass5.png'];
   var FLOWER_SPRITES = ['flower1.png', 'flower2.png', 'flower3.png', 'flower4.png'];
-  var BUSH_SPRITES = ['bush1.png'];
+  var BUSH_SPRITES   = ['bush1.png'];
   var MUSHROOM_SPRITES = ['mushroom1.png', 'mushroom2.png'];
+
+  // Edge-hugger sprites: things that look good sitting ON a border
+  var EDGE_BOTTOM_SPRITES = GRASS_SPRITES.concat(FLOWER_SPRITES).concat(BUSH_SPRITES).concat(MUSHROOM_SPRITES).concat(LEAF_SPRITES);
+  var EDGE_TOP_SPRITES    = LEAF_SPRITES.concat(FLOWER_SPRITES).concat(VINE_SPRITES);
+  var CORNER_SPRITES      = LEAF_SPRITES.concat(MUSHROOM_SPRITES).concat(FLOWER_SPRITES);
 
   var plants = [];
 
-  var MAX_NAVBAR_VINES = IS_MOBILE ? 3 : 8;
-  var MAX_CARD_PLANTS = IS_MOBILE ? 3 : 6;
-  var MAX_NAVBAR_CORNER_PLANTS = IS_MOBILE ? 2 : 4;
+  // Counts — significantly more plants for lush overgrown feel
+  var NAVBAR_VINES          = IS_MOBILE ? 5  : 14;
+  var NAVBAR_EDGE_PLANTS    = IS_MOBILE ? 4  : 10;
+  var CARD_PLANTS_PER_100PX = IS_MOBILE ? 1.5 : 2.5; // plants per 100px of perimeter
+  var BTN_PLANTS            = IS_MOBILE ? 1  : 2;
 
-  function createPlantEl(src, cssClass, extraClass) {
+  function createPlantEl(src, cssClass) {
     var el = document.createElement('div');
-    el.className = 'world-plant ' + cssClass + (extraClass ? ' ' + extraClass : '');
+    el.className = 'world-plant ' + cssClass;
     var img = document.createElement('img');
     img.src = PLANT_BASE + src;
     img.alt = '';
@@ -127,47 +133,125 @@
     return el;
   }
 
+  function plantCssType(sprite) {
+    if (VINE_SPRITES.indexOf(sprite) !== -1) return 'world-plant--vine';
+    if (LEAF_SPRITES.indexOf(sprite) !== -1) return 'world-plant--leaf';
+    if (GRASS_SPRITES.indexOf(sprite) !== -1) return 'world-plant--grass';
+    if (FLOWER_SPRITES.indexOf(sprite) !== -1) return 'world-plant--flower';
+    if (BUSH_SPRITES.indexOf(sprite) !== -1) return 'world-plant--bush';
+    if (MUSHROOM_SPRITES.indexOf(sprite) !== -1) return 'world-plant--mushroom';
+    return '';
+  }
+
+  // Check if element has a visible border/edge we can grow plants on
+  function hasVisibleEdge(el) {
+    var style = window.getComputedStyle(el);
+    var hasBorder = (parseFloat(style.borderTopWidth) > 0 || parseFloat(style.borderBottomWidth) > 0);
+    var hasShadow = style.boxShadow && style.boxShadow !== 'none';
+    var hasBg = style.backgroundColor && style.backgroundColor !== 'transparent' && style.backgroundColor !== 'rgba(0, 0, 0, 0)';
+    var hasBackdrop = (style.backdropFilter && style.backdropFilter !== 'none') ||
+                      (style.webkitBackdropFilter && style.webkitBackdropFilter !== 'none');
+    var hasOutline = style.outline && style.outline !== 'none' && parseFloat(style.outlineWidth) > 0;
+    return hasBorder || hasShadow || (hasBg && hasBackdrop) || hasOutline;
+  }
+
+  // ── Place plants along an element's edges ──
+
+  function placePlantsAlongEdge(targetEl, rect, count, edge, zClass, placementType) {
+    for (var i = 0; i < count; i++) {
+      var sprite, xOff, yOff;
+
+      if (edge === 'bottom') {
+        sprite = pick(EDGE_BOTTOM_SPRITES);
+        xOff = rand(2, rect.width - 20);
+        // Anchor bottom of sprite to bottom edge of element
+        yOff = rect.height - rand(4, 12);
+      } else if (edge === 'top') {
+        sprite = pick(EDGE_TOP_SPRITES);
+        xOff = rand(2, rect.width - 20);
+        // Sit on top edge, peeking above
+        yOff = -rand(10, 22);
+      } else if (edge === 'top-vine') {
+        sprite = pick(VINE_SPRITES);
+        xOff = rand(8, rect.width - 24);
+        yOff = -4; // Hang from top edge
+      } else if (edge === 'corner-left') {
+        sprite = pick(CORNER_SPRITES);
+        xOff = -rand(2, 6);
+        yOff = Math.random() > 0.5 ? -rand(4, 12) : rect.height - rand(8, 16);
+      } else if (edge === 'corner-right') {
+        sprite = pick(CORNER_SPRITES);
+        xOff = rect.width - rand(12, 22);
+        yOff = Math.random() > 0.5 ? -rand(4, 12) : rect.height - rand(8, 16);
+      } else {
+        continue;
+      }
+
+      var cssType = plantCssType(sprite);
+      var el = createPlantEl(sprite, cssType + ' ' + zClass);
+      el.style.left = (rect.left + xOff) + 'px';
+      el.style.top = (rect.top + yOff) + 'px';
+      if (Math.random() > 0.5) el.classList.add('world-plant--flipped');
+      // Random sway delay for vines
+      if (cssType === 'world-plant--vine') {
+        el.querySelector('img').style.animationDelay = rand(0, 5) + 's';
+        el.querySelector('img').style.animationDuration = rand(5, 9) + 's';
+      }
+      plants.push({ el: el, targetEl: targetEl, xOff: xOff, yOff: yOff, placement: placementType });
+    }
+  }
+
   function placePlantsOnNavbar() {
     var navbar = document.querySelector('.navbar') || document.querySelector('nav.navbar');
     if (!navbar) return;
     var rect = navbar.getBoundingClientRect();
     if (rect.width < 100) return;
 
-    // Vines hanging from the bottom edge of the navbar
-    for (var i = 0; i < MAX_NAVBAR_VINES; i++) {
+    // Vines hanging from bottom edge of navbar
+    for (var i = 0; i < NAVBAR_VINES; i++) {
       var vine = pick(VINE_SPRITES);
+      var xOff = rand(8, rect.width - 24);
+      var yOff = rect.height - 4; // hangs from bottom edge
       var el = createPlantEl(vine, 'world-plant--vine world-plant--navbar-level');
-      var xOff = rand(20, rect.width - 40);
       el.style.left = (rect.left + xOff) + 'px';
-      el.style.top = (rect.bottom - 6) + 'px';
-      el.style.animationDelay = rand(0, 6) + 's';
-      el.style.animationDuration = rand(5, 9) + 's';
+      el.style.top = (rect.top + yOff) + 'px';
+      el.querySelector('img').style.animationDelay = rand(0, 5) + 's';
+      el.querySelector('img').style.animationDuration = rand(5, 9) + 's';
       if (Math.random() > 0.5) el.classList.add('world-plant--flipped');
-      plants.push({ el: el, targetEl: navbar, xOff: xOff, yOff: -6, placement: 'navbar-vine' });
+      plants.push({ el: el, targetEl: navbar, xOff: xOff, yOff: yOff, placement: 'navbar' });
     }
 
-    // Leaves and flowers on corners/edges of navbar
-    for (var j = 0; j < MAX_NAVBAR_CORNER_PLANTS; j++) {
-      var isLeft = j % 2 === 0;
-      var sprite, cssType;
-      var roll = Math.random();
-      if (roll < 0.4) {
-        sprite = pick(LEAF_SPRITES);
-        cssType = 'world-plant--leaf';
-      } else if (roll < 0.7) {
-        sprite = pick(FLOWER_SPRITES);
-        cssType = 'world-plant--flower';
-      } else {
-        sprite = pick(GRASS_SPRITES);
-        cssType = 'world-plant--grass';
-      }
+    // Leaves/grass/flowers along the bottom edge of navbar
+    for (var j = 0; j < NAVBAR_EDGE_PLANTS; j++) {
+      var sprite = pick(EDGE_BOTTOM_SPRITES);
+      var cssType = plantCssType(sprite);
+      var xOff2 = rand(2, rect.width - 20);
+      var yOff2 = rect.height - rand(8, 16); // sit on bottom edge
       var el2 = createPlantEl(sprite, cssType + ' world-plant--navbar-level');
-      var xOff2 = isLeft ? rand(0, 30) : (rect.width - rand(20, 50));
       el2.style.left = (rect.left + xOff2) + 'px';
-      el2.style.top = (rect.bottom - 16) + 'px';
+      el2.style.top = (rect.top + yOff2) + 'px';
       if (Math.random() > 0.5) el2.classList.add('world-plant--flipped');
-      plants.push({ el: el2, targetEl: navbar, xOff: xOff2, yOff: -16, placement: 'navbar-corner' });
+      plants.push({ el: el2, targetEl: navbar, xOff: xOff2, yOff: yOff2, placement: 'navbar' });
     }
+
+    // Corner clusters on navbar
+    var corners = [
+      { x: rand(-4, 8), y: rect.height - rand(8, 16) },
+      { x: rand(-4, 8), y: -rand(4, 10) },
+      { x: rect.width - rand(14, 24), y: rect.height - rand(8, 16) },
+      { x: rect.width - rand(14, 24), y: -rand(4, 10) },
+      { x: rand(-4, 8), y: rect.height / 2 - rand(4, 12) },
+      { x: rect.width - rand(14, 24), y: rect.height / 2 - rand(4, 12) }
+    ];
+    corners.forEach(function(c) {
+      var sp = pick(CORNER_SPRITES);
+      var ct = plantCssType(sp);
+      var elC = createPlantEl(sp, ct + ' world-plant--navbar-level');
+      elC.style.left = (rect.left + c.x) + 'px';
+      elC.style.top = (rect.top + c.y) + 'px';
+      if (Math.random() > 0.5) elC.classList.add('world-plant--flipped');
+      plants.push({ el: elC, targetEl: navbar, xOff: c.x, yOff: c.y, placement: 'navbar' });
+    });
   }
 
   function placePlantsOnCards() {
@@ -185,9 +269,10 @@
         document.querySelectorAll(sel).forEach(function(el) {
           if (seen.has(el)) return;
           seen.add(el);
+          if (!hasVisibleEdge(el)) return;
           var rect = el.getBoundingClientRect();
-          if (rect.width < 80 || rect.height < 30) return;
-          if (rect.bottom < -200 || rect.top > window.innerHeight + 400) return;
+          if (rect.width < 60 || rect.height < 20) return;
+          if (rect.bottom < -300 || rect.top > window.innerHeight + 600) return;
           allCards.push({ el: el, rect: rect });
         });
       } catch(e) {}
@@ -195,89 +280,89 @@
 
     allCards.forEach(function(card) {
       var rect = card.rect;
-      var plantsForCard = Math.min(MAX_CARD_PLANTS, Math.floor(rect.width / 100) + 1);
+      var perimeter = 2 * (rect.width + rect.height);
+      var totalPlants = Math.max(4, Math.round(perimeter / 100 * CARD_PLANTS_PER_100PX));
 
-      for (var i = 0; i < plantsForCard; i++) {
-        var edge = Math.random();
-        var sprite, cssType, xOff, yOff;
+      // Distribute: 35% top, 35% bottom, 15% left corners, 15% right corners
+      var topCount = Math.ceil(totalPlants * 0.35);
+      var botCount = Math.ceil(totalPlants * 0.35);
+      var leftCount = Math.max(1, Math.ceil(totalPlants * 0.15));
+      var rightCount = Math.max(1, Math.ceil(totalPlants * 0.15));
 
-        if (edge < 0.35) {
-          // Top edge — leaves and small vines
-          var topRoll = Math.random();
-          if (topRoll < 0.45) {
-            sprite = pick(LEAF_SPRITES);
-            cssType = 'world-plant--leaf';
-          } else if (topRoll < 0.7) {
-            sprite = pick(VINE_SPRITES);
-            cssType = 'world-plant--vine';
-          } else {
-            sprite = pick(FLOWER_SPRITES);
-            cssType = 'world-plant--flower';
-          }
-          xOff = rand(5, rect.width - 30);
-          yOff = -rand(8, 16); // above top edge
-        } else if (edge < 0.65) {
-          // Bottom edge — grass, flowers, mushrooms
-          var botRoll = Math.random();
-          if (botRoll < 0.35) {
-            sprite = pick(GRASS_SPRITES);
-            cssType = 'world-plant--grass';
-          } else if (botRoll < 0.6) {
-            sprite = pick(FLOWER_SPRITES);
-            cssType = 'world-plant--flower';
-          } else if (botRoll < 0.8) {
-            sprite = pick(BUSH_SPRITES);
-            cssType = 'world-plant--bush';
-          } else {
-            sprite = pick(MUSHROOM_SPRITES);
-            cssType = 'world-plant--mushroom';
-          }
-          xOff = rand(5, rect.width - 40);
-          yOff = rect.height - rand(10, 18); // near bottom edge
-        } else {
-          // Corners — leaves, mushrooms
-          var isLeft = Math.random() > 0.5;
-          var cornerRoll = Math.random();
-          if (cornerRoll < 0.5) {
-            sprite = pick(LEAF_SPRITES);
-            cssType = 'world-plant--leaf';
-          } else if (cornerRoll < 0.8) {
-            sprite = pick(MUSHROOM_SPRITES);
-            cssType = 'world-plant--mushroom';
-          } else {
-            sprite = pick(FLOWER_SPRITES);
-            cssType = 'world-plant--flower';
-          }
-          xOff = isLeft ? -rand(2, 8) : (rect.width - rand(15, 25));
-          yOff = rect.height - rand(12, 22);
-        }
+      // Top edge — mix of leaves, flowers, vines
+      var vineCount = Math.max(1, Math.floor(topCount * 0.4));
+      var topLeafCount = topCount - vineCount;
+      placePlantsAlongEdge(card.el, rect, vineCount, 'top-vine', '', 'card');
+      placePlantsAlongEdge(card.el, rect, topLeafCount, 'top', '', 'card');
 
-        var el = createPlantEl(sprite, cssType);
-        el.style.left = (rect.left + xOff) + 'px';
-        el.style.top = (rect.top + yOff) + 'px';
-        if (Math.random() > 0.5) el.classList.add('world-plant--flipped');
-        plants.push({ el: el, targetEl: card.el, xOff: xOff, yOff: yOff, placement: 'card' });
-      }
+      // Bottom edge — grass, flowers, bushes, mushrooms
+      placePlantsAlongEdge(card.el, rect, botCount, 'bottom', '', 'card');
+
+      // Corners
+      placePlantsAlongEdge(card.el, rect, leftCount, 'corner-left', '', 'card');
+      placePlantsAlongEdge(card.el, rect, rightCount, 'corner-right', '', 'card');
+    });
+  }
+
+  function placePlantsOnButtons() {
+    var btnSelectors = ['a.btn', 'button.btn', '.btn-group .btn', '.links a.btn'];
+    var seen = new Set();
+
+    btnSelectors.forEach(function(sel) {
+      try {
+        document.querySelectorAll(sel).forEach(function(el) {
+          if (seen.has(el)) return;
+          seen.add(el);
+          var rect = el.getBoundingClientRect();
+          if (rect.width < 30 || rect.height < 15) return;
+          if (rect.bottom < -100 || rect.top > window.innerHeight + 300) return;
+
+          // Small plants on button edges
+          for (var i = 0; i < BTN_PLANTS; i++) {
+            var roll = Math.random();
+            var sprite, xOff, yOff;
+
+            if (roll < 0.4) {
+              // Leaf on top corner
+              sprite = pick(LEAF_SPRITES);
+              xOff = Math.random() > 0.5 ? -rand(0, 4) : rect.width - rand(8, 14);
+              yOff = -rand(6, 12);
+            } else if (roll < 0.7) {
+              // Flower at top
+              sprite = pick(FLOWER_SPRITES);
+              xOff = rand(2, rect.width - 12);
+              yOff = -rand(8, 14);
+            } else {
+              // Small grass/mushroom at bottom
+              sprite = Math.random() > 0.5 ? pick(GRASS_SPRITES) : pick(MUSHROOM_SPRITES);
+              xOff = rand(2, rect.width - 12);
+              yOff = rect.height - rand(6, 10);
+            }
+
+            var cssType = plantCssType(sprite);
+            var plantEl = createPlantEl(sprite, cssType + ' world-plant--btn-level world-plant--size-sm');
+            plantEl.style.left = (rect.left + xOff) + 'px';
+            plantEl.style.top = (rect.top + yOff) + 'px';
+            if (Math.random() > 0.5) plantEl.classList.add('world-plant--flipped');
+            plants.push({ el: plantEl, targetEl: el, xOff: xOff, yOff: yOff, placement: 'btn' });
+          }
+        });
+      } catch(e) {}
     });
   }
 
   function spawnPlants() {
     placePlantsOnNavbar();
     placePlantsOnCards();
+    placePlantsOnButtons();
   }
 
   function updatePlantPositions() {
     plants.forEach(function(p) {
       if (!p.targetEl) return;
       var rect = p.targetEl.getBoundingClientRect();
-
-      if (p.placement === 'navbar-vine' || p.placement === 'navbar-corner') {
-        p.el.style.left = (rect.left + p.xOff) + 'px';
-        p.el.style.top = (rect.bottom + p.yOff) + 'px';
-      } else if (p.placement === 'card') {
-        p.el.style.left = (rect.left + p.xOff) + 'px';
-        p.el.style.top = (rect.top + p.yOff) + 'px';
-      }
+      p.el.style.left = (rect.left + p.xOff) + 'px';
+      p.el.style.top = (rect.top + p.yOff) + 'px';
     });
   }
 

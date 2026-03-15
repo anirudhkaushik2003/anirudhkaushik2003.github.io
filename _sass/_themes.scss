@@ -31,14 +31,14 @@
   --global-danger-block-title: #c00;
 
   // World layer — light mode (Spirited Away afternoon)
-  // Sky stays blue all the way down to the horizon — no warm cream
-  --world-sky-gradient: linear-gradient(180deg, #c2e8fa 0%, #a0d8f0 25%, #87CEEB 55%, #5bb5e0 100%);
+  // Dark at top (deep blue) → bright at horizon (pale sky)
+  --world-sky-gradient: linear-gradient(180deg, #3a8ec4 0%, #5bb5e0 25%, #87CEEB 50%, #a8ddf5 75%, #c8ecfa 100%);
   --world-cloud-color: #ffffff;
   --world-sparkle-color: rgba(255, 255, 255, 0.8);
   --world-card-bg: rgba(255, 255, 245, 0.78);
   --world-card-bg-fallback: rgba(255, 255, 245, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.35);
-  --global-navbar-bg: rgba(230, 245, 255, 0.82);
+  --global-navbar-bg: rgba(200, 230, 255, 0.45);
   // Ocean — clearly darker/more saturated than the sky
   --world-ocean-deep: #0d5f8a;
   --world-ocean-mid: #1580b0;
@@ -96,13 +96,14 @@ html[data-theme='dark'] {
   --global-danger-block-title: #c00;
 
   // World layer — dark mode (twilight / moonlit)
-  --world-sky-gradient: linear-gradient(180deg, #1a2a4a 0%, #142040 30%, #0f1730 60%, #080e1a 100%);
+  // Dark at top → slightly brighter at horizon
+  --world-sky-gradient: linear-gradient(180deg, #050810 0%, #0a1220 25%, #142040 55%, #1e3050 80%, #2a4060 100%);
   --world-cloud-color: rgba(160, 175, 210, 0.25);
   --world-sparkle-color: rgba(200, 220, 255, 0.7);
   --world-card-bg: rgba(28, 28, 35, 0.78);
   --world-card-bg-fallback: rgba(28, 28, 35, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.08);
-  --global-navbar-bg: rgba(10, 12, 25, 0.85);
+  --global-navbar-bg: rgba(10, 12, 25, 0.50);
   // Ocean — darker than the sky so horizon is visible
   --world-ocean-deep: #040c18;
   --world-ocean-mid: #081628;

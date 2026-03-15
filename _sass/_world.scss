@@ -321,6 +321,7 @@ html[data-theme='dark'] #world-stars { opacity: 1; }
 
 // ============================================================================
 // OVERGROWN PLANTS — vines, leaves, grass, flowers on UI elements
+// Sprites are 32x32 or 32x64 pixel art — render at native aspect ratio
 // ============================================================================
 
 .world-plant {
@@ -332,88 +333,55 @@ html[data-theme='dark'] #world-stars { opacity: 1; }
   img {
     display: block;
     image-rendering: pixelated;
+    // Never constrain both axes — let aspect ratio be natural
+    width: auto;
+    height: auto;
   }
 
-  // Placement variants
-  &--top {
-    img { transform-origin: top center; }
-  }
-  &--bottom {
-    img { transform-origin: bottom center; }
-  }
-  &--corner-left {
-    img { transform-origin: bottom left; }
-  }
-  &--corner-right {
-    img { transform-origin: bottom right; }
+  // ── Size classes (scale factor applied to the container) ──
+  // Sprites are 32px native; we scale them up for pixel-art crispness
+  &--size-sm img  { height: 24px; }
+  &--size-md img  { height: 32px; }
+  &--size-lg img  { height: 40px; }
+  &--size-xl img  { height: 52px; }
+
+  // Vine — 32x64 native, taller than wide. Gentle sway.
+  &--vine img {
+    height: 56px;
+    animation: vine-sway 6s ease-in-out infinite alternate;
   }
 
-  // Vine hanging from top edges — gentle sway
-  &--vine {
-    img {
-      height: 48px;
-      width: auto;
-      animation: vine-sway 6s ease-in-out infinite alternate;
-    }
-  }
+  // Leaves — 32x32 native
+  &--leaf img { height: 28px; }
 
-  // Leaves peeking from corners
-  &--leaf {
-    img {
-      height: 20px;
-      width: auto;
-    }
-  }
+  // Grass — 32x32 native
+  &--grass img { height: 24px; }
 
-  // Grass & flowers along bottom edges
-  &--grass {
-    img {
-      height: 18px;
-      width: auto;
-    }
-  }
+  // Flower — 32x32 native
+  &--flower img { height: 26px; }
 
-  &--flower {
-    img {
-      height: 20px;
-      width: auto;
-    }
-  }
+  // Bush — 64x32 native (wide!)
+  &--bush img { height: 28px; }
 
-  &--bush {
-    img {
-      height: 20px;
-      width: auto;
-    }
-  }
+  // Mushroom — 32x32 native
+  &--mushroom img { height: 24px; }
 
-  &--mushroom {
-    img {
-      height: 18px;
-      width: auto;
-    }
-  }
+  // ── Z-index layers ──
+  &--navbar-level { z-index: 1031; }
+  &--btn-level    { z-index: 12; }
 
-  // Navbar plants get higher z-index
-  &--navbar-level {
-    z-index: 1031;
-  }
-
-  // Flip horizontally (applied on container so it doesn't fight img animations)
-  &--flipped {
-    transform: scaleX(-1);
-  }
+  // ── Flip (on container so it doesn't fight img animations) ──
+  &--flipped { transform: scaleX(-1); }
 }
 
 @keyframes vine-sway {
-  0%   { transform: rotate(-1.5deg); }
-  100% { transform: rotate(1.5deg); }
+  0%   { transform: rotate(-2deg); }
+  100% { transform: rotate(2deg); }
 }
 
 @keyframes leaf-bob {
-  0%   { transform: translateY(0) rotate(0deg); }
-  50%  { transform: translateY(-1px) rotate(1deg); }
-  100% { transform: translateY(0) rotate(0deg); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-1.5px) rotate(1.5deg); }
 }
 
 // ============================================================================
@@ -432,6 +400,34 @@ body {
   background-color: var(--global-navbar-bg) !important;
   backdrop-filter: blur(12px) saturate(1.2);
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  border-bottom: 1.5px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+html[data-theme='dark'] .navbar {
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.30), 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+// ============================================================================
+// BUTTONS — borders + shadows + overgrown style
+// ============================================================================
+
+.btn, a.btn, button.btn {
+  position: relative;
+  border: 1.5px solid var(--global-divider-color) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  overflow: visible;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.btn-group .btn {
+  border-radius: 8px;
 }
 
 // ============================================================================
