@@ -45,6 +45,9 @@ let setTheme = (theme) => {
 
   localStorage.setItem("theme", theme);
 
+  // Notify world layer of theme change
+  window.dispatchEvent(new CustomEvent('world:theme-changed'));
+
   // Updates the background of medium-zoom overlay.
   if (typeof medium_zoom !== "undefined") {
     medium_zoom.update({

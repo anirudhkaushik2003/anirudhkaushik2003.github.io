@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:seethingswarm.itch.io)",
+      "WebFetch(domain:elthen.itch.io)",
+      "WebFetch(domain:craftpix.net)",
+      "WebFetch(domain:pixelfight.itch.io)",
+      "WebFetch(domain:free-game-assets.itch.io)",
+      "WebFetch(domain:seliel-the-shaper.itch.io)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:karsiori.itch.io)",
+      "WebFetch(domain:xzany.itch.io)",
+      "Bash(curl:*)",
+      "Bash(DEST=\"/c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/assets/world/sprites\")",
+      "Read(//c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/$DEST/**)",
+      "Bash(cd:*)",
+      "Bash(docker-compose run:*)"
+    ]
+  }
+}

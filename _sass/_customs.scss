@@ -1,40 +1,11 @@
+// Side banners disabled — replaced by living world layer
 .side-banner-wrapper {
     position: relative;
-    background-color: var(--global-bg-color); // matches the theme's background
+    background-color: transparent;
     padding: 2rem;
   }
-  
-  .side-banner-wrapper::before {
-    content: "";
-    position: fixed; /* keeps it fixed on scroll */
-    top: 0;
-    left: 0;
-    width: 20vw; /* adjust width of side banner */
-    height: 100vh;
-    background-image: var(--side-banner-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5; /* transparency */
-    z-index: -1;
-  }
-  
+
+  .side-banner-wrapper::before,
   .side-banner-wrapper::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 20vw;
-    height: 100vh;
-    background-image: var(--side-banner-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0.5;
-    z-index: -1;
-    filter: none !important; /* Kill any inherited filter */
-    mix-blend-mode: normal !important;
-    will-change: transform; /* Helps to isolate rendering */
-    isolation: isolate;
-    pointer-events: none;
+    display: none;
   }

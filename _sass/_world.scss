@@ -1,0 +1,348 @@
+/*******************************************************************************
+ * Living World Layer
+ * Spirited Away train scene / solarpunk terrarium aesthetic
+ ******************************************************************************/
+
+// ============================================================================
+// WORLD CONTAINER — fixed full-viewport behind everything
+// ============================================================================
+
+#world-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+// ============================================================================
+// SKY
+// ============================================================================
+
+#world-sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  background: var(--world-sky-gradient);
+  z-index: 0;
+}
+
+// ============================================================================
+// CLOUDS — CSS pixel-art clouds with box-shadow
+// ============================================================================
+
+#world-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  z-index: 1;
+}
+
+.world-cloud {
+  position: absolute;
+  background: var(--world-cloud-color);
+  border-radius: 50%;
+  image-rendering: pixelated;
+
+  &--small {
+    width: 16px;
+    height: 10px;
+    border-radius: 4px;
+    box-shadow:
+      12px -4px 0 0 var(--world-cloud-color),
+      24px 0 0 0 var(--world-cloud-color),
+      8px -8px 0 2px var(--world-cloud-color);
+    opacity: 0.6;
+  }
+
+  &--medium {
+    width: 24px;
+    height: 14px;
+    border-radius: 6px;
+    box-shadow:
+      18px -6px 0 2px var(--world-cloud-color),
+      36px 0 0 0 var(--world-cloud-color),
+      12px -12px 0 4px var(--world-cloud-color),
+      30px -8px 0 2px var(--world-cloud-color);
+    opacity: 0.7;
+  }
+
+  &--large {
+    width: 32px;
+    height: 18px;
+    border-radius: 8px;
+    box-shadow:
+      24px -8px 0 4px var(--world-cloud-color),
+      52px 0 0 2px var(--world-cloud-color),
+      16px -16px 0 6px var(--world-cloud-color),
+      40px -10px 0 4px var(--world-cloud-color),
+      60px -4px 0 0 var(--world-cloud-color);
+    opacity: 0.8;
+  }
+}
+
+@keyframes cloud-drift {
+  from { transform: translateX(-150px); }
+  to   { transform: translateX(calc(100vw + 150px)); }
+}
+
+// ============================================================================
+// STARS — dark mode only, twinkling dots
+// ============================================================================
+
+#world-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+html[data-theme='dark'] #world-stars {
+  opacity: 1;
+}
+
+.world-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #fffbe6;
+  border-radius: 50%;
+  animation: star-twinkle 3s ease-in-out infinite alternate;
+
+  &--bright {
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    box-shadow: 0 0 4px 1px rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes star-twinkle {
+  0%   { opacity: 0.15; }
+  50%  { opacity: 0.8; }
+  100% { opacity: 0.3; }
+}
+
+// ============================================================================
+// WATER — beach background image
+// ============================================================================
+
+#world-water {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  z-index: 2;
+
+  .world-water-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+}
+
+// ============================================================================
+// SPARKLES — gold/moonlight dots on the water surface
+// ============================================================================
+
+#world-sparkles {
+  position: absolute;
+  bottom: 5%;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  z-index: 3;
+}
+
+.world-sparkle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--world-sparkle-color);
+  animation: sparkle-fade 2.5s ease-in-out infinite;
+
+  &--large {
+    width: 4px;
+    height: 4px;
+    box-shadow: 0 0 6px 2px var(--world-sparkle-color);
+  }
+}
+
+@keyframes sparkle-fade {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50%      { opacity: 0.85; transform: scale(1.2); }
+}
+
+// ============================================================================
+// GROUND STRIP — grassy strip where critters walk
+// ============================================================================
+
+#world-ground {
+  position: absolute;
+  bottom: 38%;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  z-index: 4;
+  background: var(--world-ground-color);
+  opacity: 0.5;
+}
+
+// ============================================================================
+// CRITTERS — animated GIF sprites
+// ============================================================================
+
+#world-critters {
+  position: absolute;
+  bottom: 35%;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 5;
+}
+
+.world-critter {
+  position: absolute;
+  bottom: 0;
+  image-rendering: pixelated;
+
+  img {
+    display: block;
+    height: 32px;
+    width: auto;
+    image-rendering: pixelated;
+  }
+
+  &--large img {
+    height: 48px;
+  }
+
+  &--small img {
+    height: 24px;
+  }
+
+  &.facing-left img {
+    transform: scaleX(-1);
+  }
+}
+
+// ============================================================================
+// BODY TRANSPARENCY — let the world show through
+// ============================================================================
+
+body {
+  background-color: transparent !important;
+}
+
+// ============================================================================
+// FROSTED GLASS CONTENT CARDS
+// ============================================================================
+
+.container.mt-5 {
+  position: relative;
+  z-index: 10;
+}
+
+// Main content wrapper gets frosted glass
+.container.mt-5 > .post,
+.container.mt-5 > .row,
+.container.mt-5 > article {
+  background: var(--world-card-bg);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-radius: 16px;
+  border: 1px solid var(--world-card-border);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+// Project cards, blog cards
+.card {
+  background: var(--world-card-bg) !important;
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid var(--world-card-border) !important;
+  border-radius: 12px !important;
+}
+
+// ============================================================================
+// NAVBAR — frosted glass
+// ============================================================================
+
+// Override is in _base.scss (navbar block), but we add the glass variables here
+// Actual override happens via the --global-navbar-bg variable in _themes.scss
+
+// ============================================================================
+// BACKDROP-FILTER FALLBACK
+// ============================================================================
+
+@supports not (backdrop-filter: blur(1px)) {
+  .container.mt-5 > .post,
+  .container.mt-5 > .row,
+  .container.mt-5 > article {
+    background: var(--world-card-bg-fallback);
+  }
+
+  .card {
+    background: var(--world-card-bg-fallback) !important;
+  }
+}
+
+// ============================================================================
+// REDUCED MOTION
+// ============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .world-cloud,
+  .world-sparkle,
+  .world-star {
+    animation: none !important;
+  }
+
+  .world-cloud { opacity: 0.5; }
+  .world-sparkle { opacity: 0.4; }
+  .world-star { opacity: 0.5; }
+
+  #world-critters {
+    display: none;
+  }
+}
+
+// ============================================================================
+// RESPONSIVE
+// ============================================================================
+
+@media (max-width: 768px) {
+  .container.mt-5 > .post,
+  .container.mt-5 > .row,
+  .container.mt-5 > article {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .world-critter img {
+    height: 24px !important;
+  }
+
+  .world-critter--large img {
+    height: 36px !important;
+  }
+}

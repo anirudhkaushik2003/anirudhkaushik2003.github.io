@@ -12,6 +12,9 @@
   <!-- Body -->
   <body class="{% if site.navbar_fixed %}fixed-top-nav{% endif %} {% unless site.footer_fixed %}sticky-bottom-footer{% endunless %}">
 
+    <!-- Living World Background -->
+    {%- include world-layer.html %}
+
     <!-- Header -->
     {%- include header.html %}
 

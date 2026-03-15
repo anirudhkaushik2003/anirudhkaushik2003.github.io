@@ -30,6 +30,16 @@
   --global-danger-block-text: #600;
   --global-danger-block-title: #c00;
 
+  // World layer — light mode (Spirited Away afternoon)
+  --world-sky-gradient: linear-gradient(180deg, #87CEEB 0%, #B4E0FA 35%, #FFF8E7 70%, #FFEFC1 100%);
+  --world-cloud-color: #ffffff;
+  --world-sparkle-color: #FFD700;
+  --world-ground-color: #8DB856;
+  --world-card-bg: rgba(255, 255, 245, 0.78);
+  --world-card-bg-fallback: rgba(255, 255, 245, 0.94);
+  --world-card-border: rgba(255, 255, 255, 0.35);
+  --global-navbar-bg: rgba(255, 252, 240, 0.82);
+
   .fa-sun {
     display : none;
   }
@@ -74,6 +84,16 @@ html[data-theme='dark'] {
   --global-danger-block-bg: #ffe0e0;
   --global-danger-block-text: #600;
   --global-danger-block-title: #c00;
+
+  // World layer — dark mode (twilight / moonlit)
+  --world-sky-gradient: linear-gradient(180deg, #0B1026 0%, #1A1B3A 30%, #2C3E6B 60%, #4A5A80 100%);
+  --world-cloud-color: rgba(180, 190, 220, 0.3);
+  --world-sparkle-color: #C0D8FF;
+  --world-ground-color: #3A5234;
+  --world-card-bg: rgba(28, 28, 35, 0.78);
+  --world-card-bg-fallback: rgba(28, 28, 35, 0.94);
+  --world-card-border: rgba(255, 255, 255, 0.08);
+  --global-navbar-bg: rgba(15, 15, 30, 0.82);
 
   .fa-sun {
     padding-left: 10px;
