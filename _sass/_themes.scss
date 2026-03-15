@@ -33,17 +33,18 @@
   // World layer — light mode (Spirited Away afternoon)
   --world-sky-gradient: linear-gradient(180deg, #87CEEB 0%, #B4E0FA 35%, #FFF8E7 70%, #FFEFC1 100%);
   --world-cloud-color: #ffffff;
-  --world-sparkle-color: #FFD700;
-  --world-ground-color: #8DB856;
+  --world-sparkle-color: rgba(255, 255, 255, 0.8);
   --world-card-bg: rgba(255, 255, 245, 0.78);
   --world-card-bg-fallback: rgba(255, 255, 245, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.35);
   --global-navbar-bg: rgba(255, 252, 240, 0.82);
-  --world-ocean-deep: #1a8fc4;
-  --world-ocean-mid: #3db8e8;
-  --world-ocean-shallow: #7dd4f0;
-  --world-shimmer-color: rgba(255, 240, 140, 0.5);
-  --world-sand-gradient: linear-gradient(180deg, #f5e6c8 0%, #e8d5a3 40%, #dcc48e 70%, #d4ba80 100%);
+  --world-ocean-deep: #1565a0;
+  --world-ocean-mid: #2196c8;
+  --world-ocean-shallow: #4fc3f7;
+  --world-sand-dry: #f4d9a0;
+  --world-sand-wet: #c8a96e;
+  --world-reflection-bright: rgba(255, 255, 255, 0.9);
+  --world-reflection-mid: rgba(255, 255, 240, 0.4);
 
   .fa-sun {
     display : none;
@@ -93,17 +94,18 @@ html[data-theme='dark'] {
   // World layer — dark mode (twilight / moonlit)
   --world-sky-gradient: linear-gradient(180deg, #0B1026 0%, #1A1B3A 30%, #2C3E6B 60%, #4A5A80 100%);
   --world-cloud-color: rgba(180, 190, 220, 0.3);
-  --world-sparkle-color: #C0D8FF;
-  --world-ground-color: #3A5234;
+  --world-sparkle-color: rgba(200, 220, 255, 0.7);
   --world-card-bg: rgba(28, 28, 35, 0.78);
   --world-card-bg-fallback: rgba(28, 28, 35, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.08);
   --global-navbar-bg: rgba(15, 15, 30, 0.82);
-  --world-ocean-deep: #0a1e3d;
-  --world-ocean-mid: #142d5c;
-  --world-ocean-shallow: #1e3f70;
-  --world-shimmer-color: rgba(180, 210, 255, 0.3);
-  --world-sand-gradient: linear-gradient(180deg, #3d3525 0%, #4a3f2e 40%, #3a3020 70%, #2e2618 100%);
+  --world-ocean-deep: #071428;
+  --world-ocean-mid: #0e2240;
+  --world-ocean-shallow: #163558;
+  --world-sand-dry: #2e2618;
+  --world-sand-wet: #1e1a12;
+  --world-reflection-bright: rgba(220, 230, 255, 0.8);
+  --world-reflection-mid: rgba(180, 200, 240, 0.3);
 
   .fa-sun {
     padding-left: 10px;

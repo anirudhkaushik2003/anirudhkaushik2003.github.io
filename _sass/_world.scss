@@ -1,10 +1,13 @@
 /*******************************************************************************
  * Living World Layer
  * Spirited Away train scene / solarpunk terrarium aesthetic
+ *
+ * Layer order (top to bottom, like a real landscape):
+ *   Sky → Clouds → Stars → Ocean → Waves → Foam → Wet sand → Dry sand
  ******************************************************************************/
 
 // ============================================================================
-// WORLD CONTAINER — fixed full-viewport behind everything
+// WORLD CONTAINER
 // ============================================================================
 
 #world-layer {
@@ -33,7 +36,7 @@
 }
 
 // ============================================================================
-// CLOUDS — pure CSS fluffy clouds, SLOW gentle drift
+// CLOUDS — pure CSS, slow gentle drift
 // ============================================================================
 
 #world-clouds {
@@ -74,18 +77,9 @@
   }
 }
 
-.world-cloud--small {
-  width: 80px;
-  height: 28px;
-}
-.world-cloud--medium {
-  width: 130px;
-  height: 40px;
-}
-.world-cloud--large {
-  width: 200px;
-  height: 55px;
-}
+.world-cloud--small  { width: 80px;  height: 28px; }
+.world-cloud--medium { width: 130px; height: 40px; }
+.world-cloud--large  { width: 200px; height: 55px; }
 
 @keyframes cloud-drift {
   from { transform: translateX(-350px); }
@@ -107,9 +101,7 @@
   transition: opacity 0.8s ease;
 }
 
-html[data-theme='dark'] #world-stars {
-  opacity: 1;
-}
+html[data-theme='dark'] #world-stars { opacity: 1; }
 
 .world-star {
   position: absolute;
@@ -134,40 +126,52 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// BEACH — sand strip, separate layer ABOVE ocean
+// OCEAN — sits above the beach (further from viewer)
+// Occupies the middle-bottom area between sky and beach
 // ============================================================================
 
-#world-beach {
+#world-ocean {
   position: absolute;
-  bottom: 18%;
+  bottom: 10%;          // starts just above the beach
   left: 0;
   width: 100%;
-  height: 12%;
-  z-index: 3;
-  background: var(--world-sand-gradient);
-}
-
-// ============================================================================
-// OCEAN — water below the beach
-// ============================================================================
-
-#world-water {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 22%;
+  height: 25%;
   z-index: 2;
-  overflow: hidden;
   background: linear-gradient(
     180deg,
-    var(--world-ocean-shallow) 0%,
-    var(--world-ocean-mid) 40%,
-    var(--world-ocean-deep) 100%
+    var(--world-ocean-deep) 0%,
+    var(--world-ocean-mid) 50%,
+    var(--world-ocean-shallow) 100%
   );
 }
 
-// Gentle wave strips — VERY slow
+// Sun/moon reflection — a vertical bright white streak, centered
+.world-sun-reflection {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8%;
+  height: 80%;
+  background: linear-gradient(
+    180deg,
+    var(--world-reflection-bright) 0%,
+    var(--world-reflection-mid) 30%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  border-radius: 50% / 20%;
+  filter: blur(8px);
+  animation: reflection-shimmer 8s ease-in-out infinite alternate;
+}
+
+@keyframes reflection-shimmer {
+  0%   { opacity: 0.35; transform: translateX(-50%) scaleX(0.8); }
+  50%  { opacity: 0.55; transform: translateX(-50%) scaleX(1.2); }
+  100% { opacity: 0.4;  transform: translateX(-50%) scaleX(0.9); }
+}
+
+// Gentle wave strips — very slow bob
 .world-wave {
   position: absolute;
   left: -5%;
@@ -176,48 +180,28 @@ html[data-theme='dark'] #world-stars {
   animation: wave-bob ease-in-out infinite;
 
   &--1 {
-    top: 0;
-    height: 30px;
+    bottom: 0;
+    height: 25px;
     background: var(--world-ocean-shallow);
-    opacity: 0.4;
+    opacity: 0.35;
     animation-duration: 20s;
   }
   &--2 {
-    top: 10px;
-    height: 24px;
+    bottom: 8px;
+    height: 20px;
     background: var(--world-ocean-mid);
-    opacity: 0.3;
-    animation-duration: 25s;
+    opacity: 0.25;
+    animation-duration: 26s;
     animation-delay: -8s;
   }
   &--3 {
-    top: 20px;
-    height: 20px;
+    bottom: 18px;
+    height: 18px;
     background: var(--world-ocean-shallow);
-    opacity: 0.25;
-    animation-duration: 18s;
-    animation-delay: -4s;
+    opacity: 0.2;
+    animation-duration: 22s;
+    animation-delay: -5s;
   }
-}
-
-// Foam at top edge of ocean
-.world-foam {
-  position: absolute;
-  top: -2px;
-  left: 0;
-  width: 200%;
-  height: 5px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.7) 0px,
-    rgba(255, 255, 255, 0.3) 20px,
-    rgba(255, 255, 255, 0) 40px,
-    rgba(255, 255, 255, 0.6) 60px,
-    rgba(255, 255, 255, 0.2) 80px
-  );
-  animation: foam-slide 50s linear infinite;
-  border-radius: 4px;
-  z-index: 2;
 }
 
 @keyframes wave-bob {
@@ -225,44 +209,61 @@ html[data-theme='dark'] #world-stars {
   50%      { transform: translateX(0.5%) scaleY(1.1); }
 }
 
+// ============================================================================
+// BEACH — sand at the very bottom (closest to viewer)
+// ============================================================================
+
+#world-beach {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 12%;
+  z-index: 3;
+  background: var(--world-sand-dry);
+}
+
+// Wet sand — darker strip at top of beach where waves reach
+.world-wet-sand {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: var(--world-sand-wet);
+}
+
+// Foam line where ocean meets beach
+.world-foam {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 200%;
+  height: 6px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.8) 0px,
+    rgba(255, 255, 255, 0.4) 15px,
+    rgba(255, 255, 255, 0.0) 30px,
+    rgba(255, 255, 255, 0.6) 50px,
+    rgba(255, 255, 255, 0.2) 70px
+  );
+  animation: foam-slide 50s linear infinite;
+  border-radius: 3px;
+}
+
 @keyframes foam-slide {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 
-// Sun/moon shimmer
-.world-shimmer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--world-shimmer-color) 20%,
-    transparent 40%,
-    var(--world-shimmer-color) 60%,
-    transparent 80%,
-    var(--world-shimmer-color) 95%,
-    transparent 100%
-  );
-  opacity: 0.2;
-  animation: shimmer-drift 20s ease-in-out infinite alternate;
-}
-
-@keyframes shimmer-drift {
-  from { transform: translateX(-10%); opacity: 0.1; }
-  to   { transform: translateX(10%); opacity: 0.25; }
-}
-
 // ============================================================================
-// SPARKLES — on the water
+// SPARKLES — subtle on the water surface only
 // ============================================================================
 
 #world-sparkles {
   position: absolute;
-  bottom: 0;
+  bottom: 12%;          // on the ocean, not the beach
   left: 0;
   width: 100%;
   height: 20%;
@@ -271,22 +272,22 @@ html[data-theme='dark'] #world-stars {
 
 .world-sparkle {
   position: absolute;
-  width: 3px;
-  height: 3px;
+  width: 2px;
+  height: 2px;
   border-radius: 50%;
   background: var(--world-sparkle-color);
-  animation: sparkle-fade 4s ease-in-out infinite;
+  animation: sparkle-fade 5s ease-in-out infinite;
 
   &--large {
-    width: 4px;
-    height: 4px;
-    box-shadow: 0 0 6px 2px var(--world-sparkle-color);
+    width: 3px;
+    height: 3px;
+    box-shadow: 0 0 4px 1px var(--world-sparkle-color);
   }
 }
 
 @keyframes sparkle-fade {
   0%, 100% { opacity: 0; transform: scale(0.5); }
-  50%      { opacity: 0.85; transform: scale(1.2); }
+  50%      { opacity: 0.7; transform: scale(1.1); }
 }
 
 // ============================================================================
@@ -306,30 +307,17 @@ html[data-theme='dark'] #world-stars {
     image-rendering: pixelated;
   }
 
-  &--large img {
-    height: 48px;
-  }
-
-  &--small img {
-    height: 24px;
-  }
+  &--large img { height: 48px; }
+  &--small img { height: 24px; }
 
   &.facing-left img {
     transform: scaleX(-1);
   }
 }
 
-.world-critter--navbar {
-  z-index: 1031;
-}
-
-.world-critter--content {
-  z-index: 11;
-}
-
-.world-critter--ground {
-  z-index: 5;
-}
+.world-critter--navbar  { z-index: 1031; }
+.world-critter--content { z-index: 11; }
+.world-critter--ground  { z-index: 5; }
 
 // ============================================================================
 // BODY TRANSPARENCY
@@ -389,7 +377,6 @@ body {
   .container.mt-5 > article {
     background: var(--world-card-bg-fallback);
   }
-
   .card {
     background: var(--world-card-bg-fallback) !important;
   }
@@ -400,22 +387,14 @@ body {
 // ============================================================================
 
 @media (prefers-reduced-motion: reduce) {
-  .world-cloud,
-  .world-sparkle,
-  .world-star,
-  .world-wave,
-  .world-foam,
-  .world-shimmer {
+  .world-cloud, .world-sparkle, .world-star,
+  .world-wave, .world-foam, .world-sun-reflection {
     animation: none !important;
   }
-
   .world-cloud { opacity: 0.5; }
   .world-sparkle { opacity: 0.4; }
   .world-star { opacity: 0.5; }
-
-  .world-critter {
-    display: none;
-  }
+  .world-critter { display: none; }
 }
 
 // ============================================================================
@@ -431,12 +410,6 @@ body {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
   }
-
-  .world-critter img {
-    height: 24px !important;
-  }
-
-  .world-critter--large img {
-    height: 32px !important;
-  }
+  .world-critter img { height: 24px !important; }
+  .world-critter--large img { height: 32px !important; }
 }
