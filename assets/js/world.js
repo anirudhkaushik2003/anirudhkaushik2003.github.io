@@ -2,8 +2,8 @@
  * Living World Layer
  * Spirited Away train scene / solarpunk terrarium
  *
- * Critters walk on "platforms" — DOM elements like cards, buttons, navbar,
- * and the viewport bottom. They detect surfaces and stay within bounds.
+ * Critters walk on "platforms" — visible DOM elements with borders/backgrounds.
+ * They are pinned to the same z-depth as their platform element.
  */
 (function () {
   'use strict';
@@ -20,9 +20,6 @@
   var BASE_URL = (document.querySelector('meta[name="baseurl"]') || {}).content || '';
   var SPRITE_BASE = BASE_URL + '/assets/world/sprites/';
 
-  // Only use the clean small pixel cloud image
-  var CLOUD_IMAGE = 'cloud_64x32.png';
-
   var CRITTER_DEFS = [
     { name: 'fox',       folder: 'fox',       prefix: 'red',   hasLie: true,  size: 'normal' },
     { name: 'totoro',    folder: 'totoro',    prefix: 'gray',  hasLie: true,  size: 'large'  },
@@ -34,27 +31,10 @@
   ];
 
   var MAX_PLATFORM_CRITTERS = IS_MOBILE ? 2 : 4;
-  var MAX_GROUND_CRITTERS = IS_MOBILE ? 2 : 3;
-  var MAX_CLOUDS = IS_MOBILE ? 3 : 6;
+  var MAX_GROUND_CRITTERS = IS_MOBILE ? 1 : 2;
+  var MAX_CLOUDS = IS_MOBILE ? 4 : 8;
   var MAX_SPARKLES = IS_MOBILE ? 10 : 25;
   var MAX_STARS = IS_MOBILE ? 25 : 60;
-
-  // Selectors for elements that can be "platforms" for critters to walk on
-  var PLATFORM_SELECTORS = [
-    '.navbar',
-    '.card',
-    '.container.mt-5 > .post',
-    '.container.mt-5 > .row',
-    '.container.mt-5 > article',
-    '.profile',
-    '.post-title',
-    '.tag',
-    '.badge',
-    'a.btn, button.btn',
-    '.btn-group',
-    'h1', 'h2',
-    '.post-header'
-  ];
 
   // ========================================================================
   // UTILITY
@@ -74,23 +54,7 @@
   }
 
   // ========================================================================
-  // THEME
-  // ========================================================================
-
-  function isDark() {
-    return document.documentElement.getAttribute('data-theme') === 'dark';
-  }
-
-  function setWaterAssets() {
-    var suffix = isDark() ? 'dark' : 'light';
-    var waterImg = document.querySelector('.world-water-bg');
-    if (waterImg) {
-      waterImg.src = SPRITE_BASE + 'backgrounds/beach_background-' + suffix + '.png';
-    }
-  }
-
-  // ========================================================================
-  // CLOUDS — single pixel art image, varied with CSS
+  // CLOUDS — pure CSS, created via JS for randomness
   // ========================================================================
 
   function createClouds() {
@@ -102,27 +66,15 @@
       var sizeClass = pick(['small', 'medium', 'large']);
       el.className = 'world-cloud world-cloud--' + sizeClass;
 
-      var img = document.createElement('img');
-      img.src = SPRITE_BASE + 'clouds/' + CLOUD_IMAGE;
-      img.alt = '';
-      img.draggable = false;
-      // Fallback: if image fails, use a CSS cloud shape
-      img.onerror = function() {
-        this.style.display = 'none';
-        this.parentElement.style.width = '60px';
-        this.parentElement.style.height = '24px';
-        this.parentElement.style.background = 'var(--world-cloud-color)';
-        this.parentElement.style.borderRadius = '12px';
-        this.parentElement.style.opacity = '0.5';
-      };
-      el.appendChild(img);
+      // Random vertical position in upper sky
+      el.style.top = rand(5, 40) + '%';
+      // Random opacity for depth
+      el.style.opacity = rand(0.55, 0.95);
 
-      // Vary opacity slightly for depth
-      el.style.opacity = rand(0.5, 0.9);
-      el.style.top = rand(2, 38) + '%';
-      var duration = rand(60, 130);
-      var delay = rand(0, 80);
-      el.style.animation = 'cloud-drift ' + duration + 's ' + delay + 's linear infinite';
+      // Faster animation: 15-40s, spread out with random delays
+      var duration = rand(15, 40);
+      var delay = rand(0, duration);
+      el.style.animation = 'cloud-drift ' + duration + 's -' + delay + 's linear infinite';
 
       container.appendChild(el);
     }
@@ -169,33 +121,72 @@
   }
 
   // ========================================================================
-  // PLATFORM DETECTION — find DOM elements critters can walk on
+  // PLATFORM DETECTION
+  // Only select elements with a visible border/background that critters
+  // can believably "stand on".
   // ========================================================================
+
+  function hasVisibleBoundary(el) {
+    var style = window.getComputedStyle(el);
+    var bg = style.backgroundColor || '';
+    var border = style.borderTopWidth;
+    var shadow = style.boxShadow;
+    var backdrop = style.backdropFilter || style.webkitBackdropFilter || '';
+
+    // Check for visible background (not transparent)
+    var hasBackground = bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)';
+    // Check for border
+    var hasBorder = border && parseFloat(border) > 0;
+    // Check for box-shadow
+    var hasShadow = shadow && shadow !== 'none';
+    // Check for backdrop-filter (frosted glass)
+    var hasBackdrop = backdrop && backdrop !== 'none';
+
+    return hasBackground || hasBorder || hasShadow || hasBackdrop;
+  }
 
   function findPlatforms() {
     var platforms = [];
     var seen = new Set();
 
-    PLATFORM_SELECTORS.forEach(function (sel) {
+    // Selectors for elements that could be platforms
+    var selectors = [
+      '.navbar',
+      '.card',
+      '.container.mt-5 > .post',
+      '.container.mt-5 > .row',
+      '.container.mt-5 > article',
+      '.profile',
+      'a.btn, button.btn',
+      '.btn-group'
+    ];
+
+    selectors.forEach(function (sel) {
       try {
         var els = document.querySelectorAll(sel);
         els.forEach(function (el) {
           if (seen.has(el)) return;
           seen.add(el);
           var rect = el.getBoundingClientRect();
-          var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-          // Skip elements that are too small or invisible
-          if (rect.width < 60 || rect.height < 10) return;
-          // Skip elements far off-screen (allow some margin for scrolling)
-          if (rect.bottom < -500 || rect.top > window.innerHeight + 500) return;
+          // Skip too small, off-screen, or invisible
+          if (rect.width < 80 || rect.height < 10) return;
+          if (rect.bottom < 0 || rect.top > window.innerHeight + 200) return;
           if (rect.right < 0 || rect.left > window.innerWidth) return;
+
+          // Only place on elements with a visible boundary
+          if (!hasVisibleBoundary(el)) return;
+
+          // Determine z-class based on element type
+          var zClass = 'content';
+          if (el.classList.contains('navbar') || el.closest('.navbar')) {
+            zClass = 'navbar';
+          }
 
           platforms.push({
             el: el,
             rect: rect,
-            absTop: rect.top + scrollTop,
-            type: sel
+            zClass: zClass
           });
         });
       } catch (e) {
@@ -207,7 +198,7 @@
   }
 
   // ========================================================================
-  // CRITTER SYSTEM — platform-aware wandering
+  // CRITTER SYSTEM
   // ========================================================================
 
   var critters = [];
@@ -222,24 +213,26 @@
     return 32;
   }
 
-  /**
-   * Create a critter on a specific platform.
-   * platform = { el, left, right, top } in viewport px.
-   * If platform is null, critter walks on the bottom of the viewport.
-   */
   function createCritter(def, platform) {
     var el = document.createElement('div');
     el.className = 'world-critter';
     if (def.size === 'large') el.className += ' world-critter--large';
     if (def.size === 'small') el.className += ' world-critter--small';
-    if (!platform) el.className += ' world-critter--ground';
+
+    // Set z-class based on platform type
+    if (!platform) {
+      el.className += ' world-critter--ground';
+    } else if (platform.zClass === 'navbar') {
+      el.className += ' world-critter--navbar';
+    } else {
+      el.className += ' world-critter--content';
+    }
 
     var img = document.createElement('img');
     img.src = spriteUrl(def, 'idle');
     img.alt = '';
     img.draggable = false;
     img.onerror = function() {
-      // If sprite fails to load, hide this critter
       el.style.display = 'none';
     };
     el.appendChild(img);
@@ -250,10 +243,11 @@
     var bounds;
 
     if (platform) {
+      var rect = platform.rect;
       bounds = {
-        left: platform.left,
-        right: platform.right,
-        top: platform.top - h
+        left: rect.left,
+        right: rect.right,
+        top: rect.top - h
       };
     } else {
       bounds = {
@@ -357,7 +351,6 @@
     if (c.state === 'walk') {
       c.x += c.direction * c.speed * (dt / 1000);
 
-      // Boundary bounce
       if (c.x > c.bounds.right - 30) {
         c.x = c.bounds.right - 30;
         c.direction = -1;
@@ -375,7 +368,7 @@
   }
 
   // ========================================================================
-  // SPAWN CRITTERS ON PLATFORMS + GROUND
+  // SPAWN CRITTERS
   // ========================================================================
 
   function spawnCritters() {
@@ -389,7 +382,6 @@
       return d;
     }
 
-    // Pick random platforms to place critters on
     var shuffledPlatforms = shuffleArray(platforms);
     var platformCount = Math.min(MAX_PLATFORM_CRITTERS, shuffledPlatforms.length);
 
@@ -398,30 +390,26 @@
       var rect = p.rect;
       if (rect.width < 80) continue;
 
-      var platform = {
-        el: p.el,
-        left: rect.left,
-        right: rect.right,
-        top: rect.top
-      };
-
       var def = nextDef();
-      // Don't put large critters on small platforms
       if (def.size === 'large' && rect.width < 200) {
         def = nextDef();
       }
 
-      critters.push(createCritter(def, platform));
+      critters.push(createCritter(def, {
+        el: p.el,
+        rect: rect,
+        zClass: p.zClass
+      }));
     }
 
-    // Ground critters — walk along the very bottom of the viewport
+    // Ground critters
     for (var j = 0; j < MAX_GROUND_CRITTERS; j++) {
       critters.push(createCritter(nextDef(), null));
     }
   }
 
   // ========================================================================
-  // SCROLL HANDLER — update platform positions on scroll
+  // SCROLL HANDLER
   // ========================================================================
 
   var scrollTicking = false;
@@ -475,15 +463,14 @@
   // ========================================================================
 
   function init() {
-    setWaterAssets();
     createClouds();
     createStars();
     createSparkles();
 
-    // Delay critter spawning slightly to ensure DOM is fully laid out
+    // Delay critter spawning to ensure layout is settled
     setTimeout(function() {
       spawnCritters();
-    }, 300);
+    }, 500);
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
@@ -491,14 +478,10 @@
     requestAnimationFrame(loop);
   }
 
-  // Listen for theme changes
-  window.addEventListener('world:theme-changed', setWaterAssets);
-
   // Boot after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
-    // Additional delay for deferred scripts
-    setTimeout(init, 100);
+    setTimeout(init, 200);
   }
 })();

@@ -33,7 +33,7 @@
 }
 
 // ============================================================================
-// CLOUDS — pixel art images drifting across sky
+// CLOUDS — pure CSS fluffy clouds drifting across sky
 // ============================================================================
 
 #world-clouds {
@@ -41,27 +41,60 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 50%;
+  height: 45%;
   z-index: 1;
+  overflow: hidden;
 }
 
+// Cloud base: a rounded rectangle with ::before and ::after puffs
 .world-cloud {
   position: absolute;
-  image-rendering: pixelated;
+  background: var(--world-cloud-color);
+  border-radius: 50px;
+  opacity: 0.9;
 
-  img {
-    display: block;
-    image-rendering: pixelated;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
   }
 
-  &--small img  { height: 20px; }
-  &--medium img { height: 32px; }
-  &--large img  { height: 48px; }
+  // Left puff — smaller
+  &::before {
+    width: 55%;
+    height: 140%;
+    top: -60%;
+    left: 12%;
+  }
+
+  // Right puff — larger
+  &::after {
+    width: 45%;
+    height: 120%;
+    top: -50%;
+    right: 15%;
+  }
+}
+
+// Size variants
+.world-cloud--small {
+  width: 80px;
+  height: 28px;
+}
+.world-cloud--medium {
+  width: 130px;
+  height: 40px;
+}
+.world-cloud--large {
+  width: 200px;
+  height: 55px;
 }
 
 @keyframes cloud-drift {
-  from { transform: translateX(-200px); }
-  to   { transform: translateX(calc(100vw + 200px)); }
+  from { transform: translateX(-300px); }
+  to   { transform: translateX(calc(100vw + 300px)); }
 }
 
 // ============================================================================
@@ -73,7 +106,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 60%;
+  height: 65%;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.8s ease;
@@ -106,7 +139,7 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// WATER — beach background covers bottom, no gap
+// OCEAN — CSS animated water at bottom of viewport
 // ============================================================================
 
 #world-water {
@@ -114,16 +147,108 @@ html[data-theme='dark'] #world-stars {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%;
+  height: 28%;
   z-index: 2;
+  overflow: hidden;
+}
 
-  .world-water-bg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center bottom;
-    display: block;
+// Main ocean body — animated gradient
+.world-ocean {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--world-ocean-deep);
+}
+
+// Layered wave strips for depth
+.world-wave {
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 20px;
+  border-radius: 50%;
+  animation: wave-bob ease-in-out infinite;
+
+  &--1 {
+    top: 0;
+    height: 30px;
+    background: var(--world-ocean-shallow);
+    opacity: 0.6;
+    animation-duration: 4s;
   }
+  &--2 {
+    top: 6px;
+    height: 24px;
+    background: var(--world-ocean-mid);
+    opacity: 0.5;
+    animation-duration: 5s;
+    animation-delay: -1.5s;
+  }
+  &--3 {
+    top: 14px;
+    height: 20px;
+    background: var(--world-ocean-shallow);
+    opacity: 0.4;
+    animation-duration: 3.5s;
+    animation-delay: -0.8s;
+  }
+}
+
+// Foam line at the very top of the ocean
+.world-foam {
+  position: absolute;
+  top: -3px;
+  left: 0;
+  width: 200%;
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.7) 0px,
+    rgba(255, 255, 255, 0.3) 15px,
+    rgba(255, 255, 255, 0) 30px,
+    rgba(255, 255, 255, 0.5) 45px,
+    rgba(255, 255, 255, 0.2) 60px
+  );
+  animation: foam-slide 8s linear infinite;
+  border-radius: 4px;
+}
+
+@keyframes wave-bob {
+  0%, 100% { transform: translateX(-2%) scaleY(1); }
+  50%      { transform: translateX(2%) scaleY(1.3); }
+}
+
+@keyframes foam-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+// Sun shimmer on water surface
+.world-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--world-shimmer-color) 20%,
+    transparent 40%,
+    var(--world-shimmer-color) 60%,
+    transparent 80%,
+    var(--world-shimmer-color) 95%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  animation: shimmer-drift 6s ease-in-out infinite alternate;
+}
+
+@keyframes shimmer-drift {
+  from { transform: translateX(-10%); opacity: 0.2; }
+  to   { transform: translateX(10%); opacity: 0.4; }
 }
 
 // ============================================================================
@@ -160,15 +285,13 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// CRITTERS — now live in page-space, not the fixed background
-// They sit on top of DOM elements (cards, buttons, navbar, ground)
+// CRITTERS — positioned relative to their platform's z-depth
 // ============================================================================
 
 .world-critter {
   position: fixed;
   pointer-events: none;
   image-rendering: pixelated;
-  z-index: 1031; // above navbar (1030)
   transition: none;
 
   img {
@@ -191,9 +314,19 @@ html[data-theme='dark'] #world-stars {
   }
 }
 
+// Navbar critters sit just above navbar
+.world-critter--navbar {
+  z-index: 1031;
+}
+
+// Content card critters sit just above content
+.world-critter--content {
+  z-index: 11;
+}
+
 // Ground-level critters (bottom of viewport)
 .world-critter--ground {
-  z-index: 11; // above content cards but below navbar
+  z-index: 5;
 }
 
 // ============================================================================
@@ -269,7 +402,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .world-cloud,
   .world-sparkle,
-  .world-star {
+  .world-star,
+  .world-wave,
+  .world-foam,
+  .world-shimmer {
     animation: none !important;
   }
 

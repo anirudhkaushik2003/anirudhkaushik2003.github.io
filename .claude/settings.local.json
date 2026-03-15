@@ -19,7 +19,13 @@
       "Read(//c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/$DEST/**)",
       "Bash(cd:*)",
       "Bash(docker-compose run:*)",
-      "Bash(bundle exec:*)"
+      "Bash(bundle exec:*)",
+      "WebFetch(domain:freefrontend.com)",
+      "WebFetch(domain:codepen.io)",
+      "WebFetch(domain:thecodeplayer.com)",
+      "WebFetch(domain:gist.github.com)",
+      "WebFetch(domain:sheryllun.wordpress.com)",
+      "WebFetch(domain:opengameart.org)"
     ]
   }
 }

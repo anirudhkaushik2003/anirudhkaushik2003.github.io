@@ -39,6 +39,10 @@
   --world-card-bg-fallback: rgba(255, 255, 245, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.35);
   --global-navbar-bg: rgba(255, 252, 240, 0.82);
+  --world-ocean-deep: #1a8fc4;
+  --world-ocean-mid: #3db8e8;
+  --world-ocean-shallow: #7dd4f0;
+  --world-shimmer-color: rgba(255, 240, 140, 0.5);
 
   .fa-sun {
     display : none;
@@ -94,6 +98,10 @@ html[data-theme='dark'] {
   --world-card-bg-fallback: rgba(28, 28, 35, 0.94);
   --world-card-border: rgba(255, 255, 255, 0.08);
   --global-navbar-bg: rgba(15, 15, 30, 0.82);
+  --world-ocean-deep: #0a1e3d;
+  --world-ocean-mid: #142d5c;
+  --world-ocean-shallow: #1e3f70;
+  --world-shimmer-color: rgba(180, 210, 255, 0.3);
 
   .fa-sun {
     padding-left: 10px;
