@@ -19,7 +19,7 @@
 }
 
 // ============================================================================
-// SKY
+// SKY — covers entire viewport as base
 // ============================================================================
 
 #world-sky {
@@ -27,13 +27,13 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 65%;
+  height: 100%;
   background: var(--world-sky-gradient);
   z-index: 0;
 }
 
 // ============================================================================
-// CLOUDS — CSS pixel-art clouds with box-shadow
+// CLOUDS — pixel art images drifting across sky
 // ============================================================================
 
 #world-clouds {
@@ -41,56 +41,28 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 55%;
+  height: 50%;
   z-index: 1;
 }
 
 .world-cloud {
   position: absolute;
-  background: var(--world-cloud-color);
-  border-radius: 50%;
   image-rendering: pixelated;
 
-  &--small {
-    width: 16px;
-    height: 10px;
-    border-radius: 4px;
-    box-shadow:
-      12px -4px 0 0 var(--world-cloud-color),
-      24px 0 0 0 var(--world-cloud-color),
-      8px -8px 0 2px var(--world-cloud-color);
-    opacity: 0.6;
+  img {
+    display: block;
+    image-rendering: pixelated;
+    opacity: 0.85;
   }
 
-  &--medium {
-    width: 24px;
-    height: 14px;
-    border-radius: 6px;
-    box-shadow:
-      18px -6px 0 2px var(--world-cloud-color),
-      36px 0 0 0 var(--world-cloud-color),
-      12px -12px 0 4px var(--world-cloud-color),
-      30px -8px 0 2px var(--world-cloud-color);
-    opacity: 0.7;
-  }
-
-  &--large {
-    width: 32px;
-    height: 18px;
-    border-radius: 8px;
-    box-shadow:
-      24px -8px 0 4px var(--world-cloud-color),
-      52px 0 0 2px var(--world-cloud-color),
-      16px -16px 0 6px var(--world-cloud-color),
-      40px -10px 0 4px var(--world-cloud-color),
-      60px -4px 0 0 var(--world-cloud-color);
-    opacity: 0.8;
-  }
+  &--small img  { height: 24px; }
+  &--medium img { height: 40px; }
+  &--large img  { height: 60px; }
 }
 
 @keyframes cloud-drift {
-  from { transform: translateX(-150px); }
-  to   { transform: translateX(calc(100vw + 150px)); }
+  from { transform: translateX(-200px); }
+  to   { transform: translateX(calc(100vw + 200px)); }
 }
 
 // ============================================================================
@@ -102,7 +74,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 55%;
+  height: 60%;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.8s ease;
@@ -135,7 +107,7 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// WATER — beach background image
+// WATER — beach background covers bottom, no gap
 // ============================================================================
 
 #world-water {
@@ -143,7 +115,7 @@ html[data-theme='dark'] #world-stars {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 45%;
+  height: 40%;
   z-index: 2;
 
   .world-water-bg {
@@ -161,10 +133,10 @@ html[data-theme='dark'] #world-stars {
 
 #world-sparkles {
   position: absolute;
-  bottom: 5%;
+  bottom: 0;
   left: 0;
   width: 100%;
-  height: 30%;
+  height: 35%;
   z-index: 3;
 }
 
@@ -189,37 +161,16 @@ html[data-theme='dark'] #world-stars {
 }
 
 // ============================================================================
-// GROUND STRIP — grassy strip where critters walk
+// CRITTERS — now live in page-space, not the fixed background
+// They sit on top of DOM elements (cards, buttons, navbar, ground)
 // ============================================================================
-
-#world-ground {
-  position: absolute;
-  bottom: 38%;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  z-index: 4;
-  background: var(--world-ground-color);
-  opacity: 0.5;
-}
-
-// ============================================================================
-// CRITTERS — animated GIF sprites
-// ============================================================================
-
-#world-critters {
-  position: absolute;
-  bottom: 35%;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  z-index: 5;
-}
 
 .world-critter {
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  pointer-events: none;
   image-rendering: pixelated;
+  z-index: 1031; // above navbar (1030)
+  transition: none;
 
   img {
     display: block;
@@ -241,12 +192,27 @@ html[data-theme='dark'] #world-stars {
   }
 }
 
+// Ground-level critters (bottom of viewport)
+.world-critter--ground {
+  z-index: 11; // above content cards but below navbar
+}
+
 // ============================================================================
 // BODY TRANSPARENCY — let the world show through
 // ============================================================================
 
 body {
   background-color: transparent !important;
+}
+
+// ============================================================================
+// NAVBAR — frosted glass so world shows through
+// ============================================================================
+
+.navbar {
+  background-color: var(--global-navbar-bg) !important;
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
 }
 
 // ============================================================================
@@ -282,13 +248,6 @@ body {
 }
 
 // ============================================================================
-// NAVBAR — frosted glass
-// ============================================================================
-
-// Override is in _base.scss (navbar block), but we add the glass variables here
-// Actual override happens via the --global-navbar-bg variable in _themes.scss
-
-// ============================================================================
 // BACKDROP-FILTER FALLBACK
 // ============================================================================
 
@@ -319,7 +278,7 @@ body {
   .world-sparkle { opacity: 0.4; }
   .world-star { opacity: 0.5; }
 
-  #world-critters {
+  .world-critter {
     display: none;
   }
 }
@@ -343,6 +302,6 @@ body {
   }
 
   .world-critter--large img {
-    height: 36px !important;
+    height: 32px !important;
   }
 }

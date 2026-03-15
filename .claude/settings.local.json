@@ -18,7 +18,8 @@
       "Bash(DEST=\"/c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/assets/world/sprites\")",
       "Read(//c/Users/anikaushik/Desktop/anirudhkaushik2003.github.io/$DEST/**)",
       "Bash(cd:*)",
-      "Bash(docker-compose run:*)"
+      "Bash(docker-compose run:*)",
+      "Bash(bundle exec:*)"
     ]
   }
 }

@@ -2,15 +2,11 @@
  * Living World Layer
  * Spirited Away train scene / solarpunk terrarium
  *
- * Creates animated clouds, sparkles, stars, and wandering critters
- * over a sky-gradient + water background.
+ * Critters walk on "platforms" — DOM elements like cards, buttons, navbar,
+ * and the viewport bottom. They detect surfaces and stay within bounds.
  */
 (function () {
   'use strict';
-
-  // ========================================================================
-  // GUARDS
-  // ========================================================================
 
   var REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (REDUCED_MOTION) return;
@@ -24,6 +20,9 @@
   var BASE_URL = (document.querySelector('meta[name="baseurl"]') || {}).content || '';
   var SPRITE_BASE = BASE_URL + '/assets/world/sprites/';
 
+  // Cloud image filenames (will be populated after checking what exists)
+  var CLOUD_IMAGES = ['cloud1_test.png', 'cloud_64x32.png', 'cloud_large.png'];
+
   var CRITTER_DEFS = [
     { name: 'fox',       folder: 'fox',       prefix: 'red',   hasLie: true,  size: 'normal' },
     { name: 'totoro',    folder: 'totoro',    prefix: 'gray',  hasLie: true,  size: 'large'  },
@@ -34,10 +33,26 @@
     { name: 'chicken',   folder: 'chicken',   prefix: 'white', hasLie: false, size: 'normal' }
   ];
 
-  var MAX_CRITTERS = IS_MOBILE ? 3 : 6;
-  var MAX_CLOUDS   = IS_MOBILE ? 3 : 7;
+  var MAX_PLATFORM_CRITTERS = IS_MOBILE ? 2 : 5;
+  var MAX_GROUND_CRITTERS = IS_MOBILE ? 2 : 3;
+  var MAX_CLOUDS = IS_MOBILE ? 3 : 7;
   var MAX_SPARKLES = IS_MOBILE ? 10 : 25;
-  var MAX_STARS    = IS_MOBILE ? 25 : 60;
+  var MAX_STARS = IS_MOBILE ? 25 : 60;
+
+  // Selectors for elements that can be "platforms" for critters
+  var PLATFORM_SELECTORS = [
+    '.navbar',
+    '.card',
+    '.container.mt-5 > .post',
+    '.container.mt-5 > .row',
+    '.container.mt-5 > article',
+    'a.btn, button.btn',
+    '.btn-group',
+    '.profile',
+    '.post-title',
+    '.tag',
+    '.badge'
+  ];
 
   // ========================================================================
   // UTILITY
@@ -57,7 +72,7 @@
   }
 
   // ========================================================================
-  // THEME AWARENESS
+  // THEME
   // ========================================================================
 
   function isDark() {
@@ -73,23 +88,36 @@
   }
 
   // ========================================================================
-  // CLOUD SYSTEM — JS creates DOM, CSS animates
+  // CLOUDS — pixel art images drifting across sky
   // ========================================================================
 
   function createClouds() {
     var container = document.getElementById('world-clouds');
     if (!container) return;
 
-    var sizes = ['small', 'medium', 'large'];
     for (var i = 0; i < MAX_CLOUDS; i++) {
       var el = document.createElement('div');
-      var size = pick(sizes);
-      el.className = 'world-cloud world-cloud--' + size;
+      var sizeClass = pick(['small', 'medium', 'large']);
+      el.className = 'world-cloud world-cloud--' + sizeClass;
 
-      el.style.top = rand(5, 45) + '%';
+      var img = document.createElement('img');
+      img.src = SPRITE_BASE + 'clouds/' + pick(CLOUD_IMAGES);
+      img.alt = '';
+      img.draggable = false;
+      // Fallback: if image fails, use a CSS cloud shape
+      img.onerror = function() {
+        this.style.display = 'none';
+        this.parentElement.style.width = '60px';
+        this.parentElement.style.height = '24px';
+        this.parentElement.style.background = 'var(--world-cloud-color)';
+        this.parentElement.style.borderRadius = '12px';
+        this.parentElement.style.opacity = '0.6';
+      };
+      el.appendChild(img);
 
-      var duration = rand(45, 100);
-      var delay = rand(0, 60);
+      el.style.top = rand(5, 42) + '%';
+      var duration = rand(50, 110);
+      var delay = rand(0, 70);
       el.style.animation = 'cloud-drift ' + duration + 's ' + delay + 's linear infinite';
 
       container.appendChild(el);
@@ -97,7 +125,7 @@
   }
 
   // ========================================================================
-  // STAR SYSTEM — dark-mode twinkling dots
+  // STARS
   // ========================================================================
 
   function createStars() {
@@ -117,7 +145,7 @@
   }
 
   // ========================================================================
-  // SPARKLE SYSTEM — gold/moonlight dots on water
+  // SPARKLES
   // ========================================================================
 
   function createSparkles() {
@@ -137,7 +165,37 @@
   }
 
   // ========================================================================
-  // CRITTER SYSTEM — state machine with wander AI
+  // PLATFORM DETECTION — find DOM elements critters can walk on
+  // ========================================================================
+
+  function findPlatforms() {
+    var platforms = [];
+    var seen = new Set();
+
+    PLATFORM_SELECTORS.forEach(function (sel) {
+      var els = document.querySelectorAll(sel);
+      els.forEach(function (el) {
+        if (seen.has(el)) return;
+        seen.add(el);
+        var rect = el.getBoundingClientRect();
+        // Skip elements that are too small, off-screen, or invisible
+        if (rect.width < 50 || rect.height < 10) return;
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        if (rect.right < 0 || rect.left > window.innerWidth) return;
+
+        platforms.push({
+          el: el,
+          rect: rect,
+          type: sel
+        });
+      });
+    });
+
+    return platforms;
+  }
+
+  // ========================================================================
+  // CRITTER SYSTEM — platform-aware wandering
   // ========================================================================
 
   var critters = [];
@@ -146,11 +204,23 @@
     return SPRITE_BASE + def.folder + '/' + def.prefix + '_' + action + '_8fps.gif';
   }
 
-  function createCritter(def) {
+  function getCritterHeight(def) {
+    if (def.size === 'large') return 48;
+    if (def.size === 'small') return 24;
+    return 32;
+  }
+
+  /**
+   * Create a critter on a specific platform.
+   * platform = { left, right, top } in viewport px — the surface the critter walks on.
+   * If platform is null, critter walks on the bottom of the viewport.
+   */
+  function createCritter(def, platform) {
     var el = document.createElement('div');
     el.className = 'world-critter';
     if (def.size === 'large') el.className += ' world-critter--large';
     if (def.size === 'small') el.className += ' world-critter--small';
+    if (!platform) el.className += ' world-critter--ground';
 
     var img = document.createElement('img');
     img.src = spriteUrl(def, 'idle');
@@ -158,21 +228,47 @@
     img.draggable = false;
     el.appendChild(img);
 
-    var x = rand(8, 88);
-    el.style.left = x + '%';
+    document.body.appendChild(el);
 
-    document.getElementById('world-critters').appendChild(el);
+    var h = getCritterHeight(def);
+    var bounds;
 
-    return {
+    if (platform) {
+      // Walk on top of this platform element
+      bounds = {
+        left: platform.left,
+        right: platform.right,
+        top: platform.top - h // critter sits on top of the platform
+      };
+    } else {
+      // Walk on the ground (bottom of viewport)
+      bounds = {
+        left: 10,
+        right: window.innerWidth - 40,
+        top: window.innerHeight - h - 4
+      };
+    }
+
+    var x = rand(bounds.left + 5, bounds.right - 5);
+    el.style.left = x + 'px';
+    el.style.top = bounds.top + 'px';
+
+    var c = {
       el: el,
       imgEl: img,
       x: x,
       state: 'idle',
       direction: Math.random() > 0.5 ? 1 : -1,
       stateTimer: rand(3000, 7000),
-      speed: rand(0.4, 1.2),
-      def: def
+      speed: rand(8, 25), // px per second
+      def: def,
+      bounds: bounds,
+      platformEl: platform ? platform.el : null,
+      isGround: !platform
     };
+
+    if (c.direction === -1) el.classList.add('facing-left');
+    return c;
   }
 
   function setCritterState(c, newState) {
@@ -187,7 +283,7 @@
         break;
       case 'lie':
         action = 'lie';
-        c.stateTimer = rand(5000, 12000); // lie down longer
+        c.stateTimer = rand(5000, 12000);
         break;
       default:
         action = 'idle';
@@ -208,22 +304,34 @@
     var next;
 
     if (c.state === 'walk') {
-      // After walking, rest or keep going
       if (roll < 0.4) next = 'idle';
       else if (roll < 0.55 && c.def.hasLie) next = 'lie';
       else next = 'walk';
     } else if (c.state === 'lie') {
-      // After lying, get up
       if (roll < 0.6) next = 'idle';
       else next = 'walk';
     } else {
-      // After idling, walk or lie
       if (roll < 0.6) next = 'walk';
       else if (roll < 0.75 && c.def.hasLie) next = 'lie';
       else next = 'walk';
     }
 
     setCritterState(c, next);
+  }
+
+  function updateCritterBounds(c) {
+    if (c.platformEl) {
+      var rect = c.platformEl.getBoundingClientRect();
+      var h = getCritterHeight(c.def);
+      c.bounds.left = rect.left;
+      c.bounds.right = rect.right;
+      c.bounds.top = rect.top - h;
+    } else {
+      var h2 = getCritterHeight(c.def);
+      c.bounds.left = 10;
+      c.bounds.right = window.innerWidth - 40;
+      c.bounds.top = window.innerHeight - h2 - 4;
+    }
   }
 
   function updateCritter(c, dt) {
@@ -236,18 +344,84 @@
       c.x += c.direction * c.speed * (dt / 1000);
 
       // Boundary bounce
-      if (c.x > 92) {
-        c.x = 92;
+      if (c.x > c.bounds.right - 30) {
+        c.x = c.bounds.right - 30;
         c.direction = -1;
         c.el.classList.add('facing-left');
       }
-      if (c.x < 3) {
-        c.x = 3;
+      if (c.x < c.bounds.left + 2) {
+        c.x = c.bounds.left + 2;
         c.direction = 1;
         c.el.classList.remove('facing-left');
       }
+    }
 
-      c.el.style.left = c.x + '%';
+    c.el.style.left = c.x + 'px';
+    c.el.style.top = c.bounds.top + 'px';
+  }
+
+  // ========================================================================
+  // SPAWN CRITTERS ON PLATFORMS + GROUND
+  // ========================================================================
+
+  function spawnCritters() {
+    var platforms = findPlatforms();
+    var shuffledDefs = shuffleArray(CRITTER_DEFS);
+    var defIndex = 0;
+
+    function nextDef() {
+      var d = shuffledDefs[defIndex % shuffledDefs.length];
+      defIndex++;
+      return d;
+    }
+
+    // Pick random platforms to place critters on
+    var shuffledPlatforms = shuffleArray(platforms);
+    var platformCount = Math.min(MAX_PLATFORM_CRITTERS, shuffledPlatforms.length);
+
+    for (var i = 0; i < platformCount; i++) {
+      var p = shuffledPlatforms[i];
+      var rect = p.rect;
+      // Only place critters on platforms wide enough
+      if (rect.width < 80) continue;
+
+      var platform = {
+        el: p.el,
+        left: rect.left,
+        right: rect.right,
+        top: rect.top
+      };
+
+      var def = nextDef();
+      // Don't put large critters (totoro) on small platforms
+      if (def.size === 'large' && rect.width < 200) {
+        def = nextDef();
+      }
+
+      critters.push(createCritter(def, platform));
+    }
+
+    // Ground critters — walk along the very bottom of the viewport
+    for (var j = 0; j < MAX_GROUND_CRITTERS; j++) {
+      critters.push(createCritter(nextDef(), null));
+    }
+  }
+
+  // ========================================================================
+  // SCROLL HANDLER — update platform positions on scroll
+  // ========================================================================
+
+  var scrollTicking = false;
+
+  function onScroll() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(function () {
+        for (var i = 0; i < critters.length; i++) {
+          updateCritterBounds(critters[i]);
+        }
+        scrollTicking = false;
+      });
     }
   }
 
@@ -260,8 +434,6 @@
   function loop(time) {
     var dt = lastTime ? (time - lastTime) : 16;
     lastTime = time;
-
-    // Cap dt to avoid huge jumps when tab is backgrounded
     if (dt > 200) dt = 16;
 
     for (var i = 0; i < critters.length; i++) {
@@ -272,7 +444,22 @@
   }
 
   // ========================================================================
-  // INITIALIZATION
+  // RESIZE HANDLER
+  // ========================================================================
+
+  var resizeTimer;
+  function onResize() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      // Remove all critters and respawn
+      critters.forEach(function (c) { c.el.remove(); });
+      critters.length = 0;
+      spawnCritters();
+    }, 500);
+  }
+
+  // ========================================================================
+  // INIT
   // ========================================================================
 
   function init() {
@@ -280,13 +467,10 @@
     createClouds();
     createStars();
     createSparkles();
+    spawnCritters();
 
-    // Pick a random subset of critters
-    var shuffled = shuffleArray(CRITTER_DEFS);
-    var selected = shuffled.slice(0, MAX_CRITTERS);
-    for (var i = 0; i < selected.length; i++) {
-      critters.push(createCritter(selected[i]));
-    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
 
     requestAnimationFrame(loop);
   }
@@ -294,7 +478,7 @@
   // Listen for theme changes
   window.addEventListener('world:theme-changed', setWaterAssets);
 
-  // Boot
+  // Boot after DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
