@@ -30,8 +30,10 @@
     { name: 'chicken',   folder: 'chicken',   prefix: 'white', hasLie: false, size: 'normal' }
   ];
 
-  var MAX_PLATFORM_CRITTERS = IS_MOBILE ? 2 : 4;
-  var MAX_GROUND_CRITTERS = IS_MOBILE ? 1 : 2;
+  // How many critters to spawn per platform (1-2 each)
+  var MAX_CRITTERS_PER_PLATFORM = IS_MOBILE ? 1 : 2;
+  var MAX_TOTAL_CRITTERS = IS_MOBILE ? 6 : 14;
+  var MAX_GROUND_CRITTERS = IS_MOBILE ? 2 : 3;
   var MAX_CLOUDS = IS_MOBILE ? 4 : 8;
   var MAX_SPARKLES = IS_MOBILE ? 10 : 25;
   var MAX_STARS = IS_MOBILE ? 25 : 60;
@@ -55,6 +57,7 @@
 
   // ========================================================================
   // CLOUDS — pure CSS, created via JS for randomness
+  // Slow, gentle drift across the sky
   // ========================================================================
 
   function createClouds() {
@@ -67,12 +70,12 @@
       el.className = 'world-cloud world-cloud--' + sizeClass;
 
       // Random vertical position in upper sky
-      el.style.top = rand(5, 40) + '%';
+      el.style.top = rand(5, 38) + '%';
       // Random opacity for depth
-      el.style.opacity = rand(0.55, 0.95);
+      el.style.opacity = rand(0.6, 0.95);
 
-      // Faster animation: 15-40s, spread out with random delays
-      var duration = rand(15, 40);
+      // SLOW drift: 45-100s, negative delay to spread across sky initially
+      var duration = rand(45, 100);
       var delay = rand(0, duration);
       el.style.animation = 'cloud-drift ' + duration + 's -' + delay + 's linear infinite';
 
@@ -95,7 +98,7 @@
       star.style.left = rand(0, 100) + '%';
       star.style.top = rand(0, 100) + '%';
       star.style.animationDelay = rand(0, 6) + 's';
-      star.style.animationDuration = rand(2, 5) + 's';
+      star.style.animationDuration = rand(3, 6) + 's';
       container.appendChild(star);
     }
   }
@@ -115,43 +118,35 @@
       el.style.left = rand(3, 97) + '%';
       el.style.top = rand(5, 90) + '%';
       el.style.animationDelay = rand(0, 5) + 's';
-      el.style.animationDuration = rand(2, 4.5) + 's';
+      el.style.animationDuration = rand(3, 6) + 's';
       container.appendChild(el);
     }
   }
 
   // ========================================================================
   // PLATFORM DETECTION
-  // Only select elements with a visible border/background that critters
-  // can believably "stand on".
   // ========================================================================
-
-  function hasVisibleBoundary(el) {
-    var style = window.getComputedStyle(el);
-    var bg = style.backgroundColor || '';
-    var border = style.borderTopWidth;
-    var shadow = style.boxShadow;
-    var backdrop = style.backdropFilter || style.webkitBackdropFilter || '';
-
-    // Check for visible background (not transparent)
-    var hasBackground = bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)';
-    // Check for border
-    var hasBorder = border && parseFloat(border) > 0;
-    // Check for box-shadow
-    var hasShadow = shadow && shadow !== 'none';
-    // Check for backdrop-filter (frosted glass)
-    var hasBackdrop = backdrop && backdrop !== 'none';
-
-    return hasBackground || hasBorder || hasShadow || hasBackdrop;
-  }
 
   function findPlatforms() {
     var platforms = [];
     var seen = new Set();
 
-    // Selectors for elements that could be platforms
+    // Always include navbar as a platform (it always has a visible bar)
+    var navbar = document.querySelector('.navbar, #navbar, nav.navbar');
+    if (navbar) {
+      var nbRect = navbar.getBoundingClientRect();
+      if (nbRect.width > 100 && nbRect.height > 10) {
+        seen.add(navbar);
+        platforms.push({
+          el: navbar,
+          rect: nbRect,
+          zClass: 'navbar'
+        });
+      }
+    }
+
+    // Other visible elements
     var selectors = [
-      '.navbar',
       '.card',
       '.container.mt-5 > .post',
       '.container.mt-5 > .row',
@@ -169,29 +164,28 @@
           seen.add(el);
           var rect = el.getBoundingClientRect();
 
-          // Skip too small, off-screen, or invisible
           if (rect.width < 80 || rect.height < 10) return;
           if (rect.bottom < 0 || rect.top > window.innerHeight + 200) return;
           if (rect.right < 0 || rect.left > window.innerWidth) return;
 
-          // Only place on elements with a visible boundary
-          if (!hasVisibleBoundary(el)) return;
+          // Check for visible boundary
+          var style = window.getComputedStyle(el);
+          var bg = style.backgroundColor || '';
+          var hasBg = bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)';
+          var hasBorder = parseFloat(style.borderTopWidth) > 0;
+          var hasShadow = style.boxShadow && style.boxShadow !== 'none';
+          var hasBackdrop = (style.backdropFilter && style.backdropFilter !== 'none') ||
+                            (style.webkitBackdropFilter && style.webkitBackdropFilter !== 'none');
 
-          // Determine z-class based on element type
-          var zClass = 'content';
-          if (el.classList.contains('navbar') || el.closest('.navbar')) {
-            zClass = 'navbar';
-          }
+          if (!hasBg && !hasBorder && !hasShadow && !hasBackdrop) return;
 
           platforms.push({
             el: el,
             rect: rect,
-            zClass: zClass
+            zClass: 'content'
           });
         });
-      } catch (e) {
-        // Ignore invalid selectors
-      }
+      } catch (e) {}
     });
 
     return platforms;
@@ -219,7 +213,6 @@
     if (def.size === 'large') el.className += ' world-critter--large';
     if (def.size === 'small') el.className += ' world-critter--small';
 
-    // Set z-class based on platform type
     if (!platform) {
       el.className += ' world-critter--ground';
     } else if (platform.zClass === 'navbar') {
@@ -268,7 +261,7 @@
       state: 'idle',
       direction: Math.random() > 0.5 ? 1 : -1,
       stateTimer: rand(3000, 7000),
-      speed: rand(8, 25),
+      speed: rand(8, 20),
       def: def,
       bounds: bounds,
       platformEl: platform ? platform.el : null,
@@ -281,7 +274,7 @@
 
   function setCritterState(c, newState) {
     c.state = newState;
-    c.stateTimer = rand(3000, 8000);
+    c.stateTimer = rand(4000, 10000);
 
     var action;
     switch (newState) {
@@ -291,7 +284,7 @@
         break;
       case 'lie':
         action = 'lie';
-        c.stateTimer = rand(5000, 12000);
+        c.stateTimer = rand(6000, 15000);
         break;
       default:
         action = 'idle';
@@ -319,8 +312,8 @@
       if (roll < 0.6) next = 'idle';
       else next = 'walk';
     } else {
-      if (roll < 0.6) next = 'walk';
-      else if (roll < 0.75 && c.def.hasLie) next = 'lie';
+      if (roll < 0.5) next = 'walk';
+      else if (roll < 0.65 && c.def.hasLie) next = 'lie';
       else next = 'walk';
     }
 
@@ -368,13 +361,14 @@
   }
 
   // ========================================================================
-  // SPAWN CRITTERS
+  // SPAWN CRITTERS — multiple per platform allowed
   // ========================================================================
 
   function spawnCritters() {
     var platforms = findPlatforms();
     var shuffledDefs = shuffleArray(CRITTER_DEFS);
     var defIndex = 0;
+    var totalSpawned = 0;
 
     function nextDef() {
       var d = shuffledDefs[defIndex % shuffledDefs.length];
@@ -382,24 +376,34 @@
       return d;
     }
 
+    // Spawn critters on each platform (1-2 per platform)
     var shuffledPlatforms = shuffleArray(platforms);
-    var platformCount = Math.min(MAX_PLATFORM_CRITTERS, shuffledPlatforms.length);
 
-    for (var i = 0; i < platformCount; i++) {
+    for (var i = 0; i < shuffledPlatforms.length && totalSpawned < MAX_TOTAL_CRITTERS - MAX_GROUND_CRITTERS; i++) {
       var p = shuffledPlatforms[i];
       var rect = p.rect;
       if (rect.width < 80) continue;
 
-      var def = nextDef();
-      if (def.size === 'large' && rect.width < 200) {
-        def = nextDef();
+      // How many critters on this platform — wider platforms get more
+      var count = 1;
+      if (rect.width > 300 && MAX_CRITTERS_PER_PLATFORM > 1) {
+        count = randInt(1, MAX_CRITTERS_PER_PLATFORM + 1);
       }
 
-      critters.push(createCritter(def, {
-        el: p.el,
-        rect: rect,
-        zClass: p.zClass
-      }));
+      for (var k = 0; k < count && totalSpawned < MAX_TOTAL_CRITTERS - MAX_GROUND_CRITTERS; k++) {
+        var def = nextDef();
+        // Don't put large critters on small platforms
+        if (def.size === 'large' && rect.width < 200) {
+          def = nextDef();
+        }
+
+        critters.push(createCritter(def, {
+          el: p.el,
+          rect: rect,
+          zClass: p.zClass
+        }));
+        totalSpawned++;
+      }
     }
 
     // Ground critters

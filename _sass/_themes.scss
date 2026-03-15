@@ -43,6 +43,7 @@
   --world-ocean-mid: #3db8e8;
   --world-ocean-shallow: #7dd4f0;
   --world-shimmer-color: rgba(255, 240, 140, 0.5);
+  --world-sand-gradient: linear-gradient(180deg, #f5e6c8 0%, #e8d5a3 40%, #dcc48e 70%, #d4ba80 100%);
 
   .fa-sun {
     display : none;
@@ -102,6 +103,7 @@ html[data-theme='dark'] {
   --world-ocean-mid: #142d5c;
   --world-ocean-shallow: #1e3f70;
   --world-shimmer-color: rgba(180, 210, 255, 0.3);
+  --world-sand-gradient: linear-gradient(180deg, #3d3525 0%, #4a3f2e 40%, #3a3020 70%, #2e2618 100%);
 
   .fa-sun {
     padding-left: 10px;
