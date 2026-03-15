@@ -32,7 +32,7 @@
 
   // World layer — light mode (Spirited Away afternoon)
   // Sky stays blue all the way down to the horizon — no warm cream
-  --world-sky-gradient: linear-gradient(180deg, #5bb5e0 0%, #87CEEB 30%, #a8ddf5 60%, #c2e8fa 100%);
+  --world-sky-gradient: linear-gradient(180deg, #c2e8fa 0%, #a0d8f0 25%, #87CEEB 55%, #5bb5e0 100%);
   --world-cloud-color: #ffffff;
   --world-sparkle-color: rgba(255, 255, 255, 0.8);
   --world-card-bg: rgba(255, 255, 245, 0.78);
@@ -96,7 +96,7 @@ html[data-theme='dark'] {
   --global-danger-block-title: #c00;
 
   // World layer — dark mode (twilight / moonlit)
-  --world-sky-gradient: linear-gradient(180deg, #080e1a 0%, #0f1730 30%, #1a2a4a 60%, #283d60 100%);
+  --world-sky-gradient: linear-gradient(180deg, #1a2a4a 0%, #142040 30%, #0f1730 60%, #080e1a 100%);
   --world-cloud-color: rgba(160, 175, 210, 0.25);
   --world-sparkle-color: rgba(200, 220, 255, 0.7);
   --world-card-bg: rgba(28, 28, 35, 0.78);
